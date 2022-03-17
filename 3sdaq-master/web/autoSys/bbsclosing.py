@@ -63,10 +63,10 @@ def bbs_update():
     news = soup.select("strong.tit_g")
     print("len(news) : ", len(news))
     if(len(news) > 5):
-        sql_delete = "delete from userApp_sbs"
+        sql_delete = "delete from bbsApp_sbs"
         cur.execute(sql_delete)
         con.commit()
-        sql_update = "update sqlite_sequence set seq = 0 where name = 'userApp_sbs'"
+        sql_update = "update sqlite_sequence set seq = 0 where name = 'bbsApp_sbs'"
         cur.execute(sql_update)
         con.commit()
         for list in news:
@@ -74,7 +74,7 @@ def bbs_update():
             print("링크 : " + a.get('href'))
             title = a.string
             print("제목 : " + title.strip())
-            sql_insert_news = "insert into userApp_sbs(title, url) values(?,?)"
+            sql_insert_news = "insert into bbsApp_sbs(title, url) values(?,?)"
             cur.execute(sql_insert_news, (title.strip(), a.get('href').strip()))
 
         con.commit()

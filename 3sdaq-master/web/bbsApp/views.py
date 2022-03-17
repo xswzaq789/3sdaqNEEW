@@ -110,7 +110,7 @@ def myLineChart(request) :
     for row in cur.fetchall():
         labels.append(row[0])
         ex_index.append(row[1])
-        if(min_value > row[1]):
+        if(min_value > row[1] or min_value == 0):
             min_value = row[1]
         if (max_value < row[1]):
             max_value = row[1]
