@@ -7,6 +7,7 @@ from math import floor
 from datetime import datetime
 '''
 보현 주석 테스트############ 민수가 덮어씀
+##주석 다시 덮기!
 '''
 '''
  sqlite 위치 
