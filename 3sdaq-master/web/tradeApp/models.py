@@ -8,6 +8,7 @@ class Comp(models.Model):
     vol   = models.IntegerField(default=100)
     d_1price = models.IntegerField(default=0)
     regdate = models.DateTimeField(auto_now=True)
+    u_date = models.DateTimeField(null=True)
 
 class Order(models.Model):
     code = models.IntegerField()
@@ -37,8 +38,19 @@ class Ballance(models.Model):
             )
         ]
 
+class D_price(models.Model):
+    day = models.CharField(max_length=50)
+    code = models.IntegerField()
+    name = models.CharField(max_length=100)
+    price = models.IntegerField(default=0)
+    regdate = models.DateTimeField(auto_now=True)
 
-
+class D_trade(models.Model):
+    day = models.CharField(max_length=50, primary_key = True)
+    volume = models.IntegerField(default=0)
+    trade_cost = models.IntegerField(default=0)
+    ex_index = models.IntegerField(default=0)
+    regdate = models.DateTimeField(auto_now=True)
 
 
 

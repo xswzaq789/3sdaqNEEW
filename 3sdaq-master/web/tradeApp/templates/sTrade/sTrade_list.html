@@ -1,35 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>sTrade_list</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<style>
+{% include 'header.html' %}
+
+{% block content %}
+<!--여기서부터 내용-->
+<div id="contents">
+    <style>
 		#contents{
 			width: 100%;
  			text-align: center;
 		}
 		#first {
 			display:inline-block;
-			width:650px;
-			height:620px;
+			width:60%;
+			height:450px;
 			float: left;
 			position: relative;
-			left: 15%;
+			left: 0%;
 			overflow-y: auto;
 		}
 		#second {
-		display:inline-block;
-		width: 300px;
-		float: left;
-		position: relative;
-  		left: 15%;
+			display:inline-block;
+			width: 40%;
+			float: left;
+			position: relative;
+			left: 0px;
 		}
 		#three {
 
 			display:inline-block;
-			width:80%;
-			height:620px;
+			width:90%;
+			height:300px;
 			overflow-y: auto;
 
 		}
@@ -39,32 +38,42 @@
 		  overflow-y: auto;
 		  align:center;
 		}
-		th{height:40px;}
-		td{height:40px;}
+		th{height:30px;}
+		td{height:20px;}
 
 		th{background-color: #f2f2f2;}
 		tr:nth-child(even) {background-color: #f2f2f2;}
-		input{height:60%;}
+		input{height:80%;}
+    </style>
+	<style type="text/css">
+		.table > :not(caption) > * > *, .dataTable-table > :not(caption) > * > * {
+		  padding: 0rem 0rem;
+		  background-color: var(--bs-table-bg);
+		  border-bottom-width: 1px;
+		  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+	</style>
+	<div style="height: 10px;">
+		&nbsp;
+	</div>
 
-</style>
-
-</head>
-<body>
-	<div id="contents">
-	<div id="first" style="margin-top: 30px;height: 500px;" >
-		<div style="width:630px;">
-		<table class="" style="width:100%;">
+	<div id="first" style="height: 300px;" >
+		<div style="text-align-last: left;">
+			<h4>현재가</h4>
+		</div>
+		<table class="table table-bordered" style="width:100%;">
 			<caption  style = "display:none;">이건테이블이다.</caption>
 			<colgroup>
-				<col width="30%" />
-				<col width="20%" />
-				<col width="20%" />
-				<col width="20%" />
-				<col width="20%" />
+				<col width="25%" />
+				<col width="15%" />
+				<col width="15%" />
+				<col width="15%" />
+				<col width="15%" />
+				<col width="15%" />
 			</colgroup>
 			<thead>
 				<tr>
-					<th>종목</th><th>현재가</th><th>전일가</th><th>전일대비</th><th>변동율</th>
+					<th>종목</th><th>현재가</th><th>전일가</th><th>전일대비</th><th>거래량</th><th>변동율</th>
 				</tr>
 			</thead>
 
@@ -75,16 +84,26 @@
 					<td name="price" id="td_sTrade_price_{{forloop.counter0}}">{{sTrade.price}}</td>
 					<td name="d_1price" id="td_sTrade_d_1price_{{forloop.counter0}}">{{sTrade.d_1price}}</td>
 					<td name="change" id="td_sTrade_change_{{forloop.counter0}}">{{sTrade.change}}</td>
+					<td name="sum_tquan" id="td_sTrade_sum_tquan_{{forloop.counter0}}">{{sTrade.sum_tquan}}</td>
 					<td name="ch_rate" id="td_sTrade_ch_rate_{{forloop.counter0}}">{{sTrade.ch_rate}}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
 
 		</table>
-		</div>
+
 	</div>
-	<div id="second" style="margin-top: 30px;">
-		<table class="table table-bordered" style='text-align: center;position: absolute;left: 50px;' align="center">
+
+
+	<div id="second" style="width: 350px;margin-top: 30px;margin-left: 50px;">
+		<div style="text-align-last: left;">
+			<h4>매수/매도</h4>
+		</div>
+		<table class="table table-bordered" style='text-align: center;position: absolute;left: 0px;' align="center">
+			<colgroup>
+				<col width="50%" />
+				<col width="50%" />
+			</colgroup>
 			<thead>
 				<tr>
 					<th id="sTrade_Form_th1" style="">매수</th><th id="sTrade_Form_th2">매도</th>
@@ -92,25 +111,25 @@
 			</thead>
 			<tbody id="tbody2">
 				<tr>
-					<td width="100" >종목</td>
-					<td width="100" id="sTrade_Form_dname"></td>
+					<td>종목</td>
+					<td id="sTrade_Form_dname"></td>
 				</tr>
 				<tr>
-					<td width="100" >현재가</td>
-					<td width="100" id="sTrade_Form_dprice"></td>
+					<td>현재가</td>
+					<td id="sTrade_Form_dprice"></td>
 				</tr>
 				<tr>
-					<td width="100" id="sTrade_Form_wprice_txt" >매수가</td>
-					<td width="100"><input type="text" id="sTrade_Form_wprice" style="text-align: center;" /></td>
+					<td id="sTrade_Form_wprice_txt" >매수가</td>
+					<td><input type="text" id="sTrade_Form_wprice" style="text-align: center;" /></td>
 				</tr>
 				<tr>
-					<td width="100" >수량</td>
-					<td width="100">
+					<td>수량</td>
+					<td>
 						<input type="text" id="sTrade_Form_dquan" style="text-align: center;" />
 					</td>
 				</tr>
 				<tr>
-					<td width="100" colspan='2'><button id="bsBtn" type="button" onclick="">매수</button>
+					<td colspan='2'><button id="bsBtn" type="button" onclick="">매수</button>
 						<input type="text" id="sTrade_Form_dcode" value="" style="visibility:hidden;width: 0px;">
 						<input type="text" id="sTrade_Form_gubun" value="" style="visibility:hidden;width: 0px;">
 					</td>
@@ -118,11 +137,25 @@
 			</tbody>
 		</table>
 	</div>
+
 	<div id="three" style="margin-top: 50px;">
+		<div style="text-align-last: left;">
+			<h4>주식잔고</h4>
+		</div>
 		<table class="table table-bordered" stype="height:300px; width:100%;" align="center">
+			<colgroup>
+				<col width="18%" />
+				<col width="11%" />
+				<col width="11%" />
+				<col width="12%" />
+				<col width="11%" />
+				<col width="12%" />
+				<col width="11%" />
+				<col width="14%" />
+			</colgroup>
 			<thead>
 				<tr>
-					<th style="width: 10px">종목</th><th>전일가</th><th>현재가</th><th>전일대비</th><th>수익률</th><th>매입가</th><th>수량</th>
+					<th style="width: 10px">종목</th><th>전일가</th><th>현재가</th><th>전일대비</th><th>수익률</th><th>매입가</th><th>수량</th><th>총금액</th>
 				</tr>
 			</thead>
 			<tbody id="tbody3">
@@ -134,16 +167,16 @@
 					<td width="100" name="d_1price" id="td_myTrade_d_1price_{{forloop.counter0}}">{{myTrade.d_1price}}</td>
 					<td width="100" name="price" id="td_myTrade_price_{{forloop.counter0}}">{{myTrade.price}}</td>
 					<td width="100" name="change" id="td_myTrade_change_{{forloop.counter0}}">{{myTrade.change}}</td>
-					<td width="100" name="income_rate" id="td_myTrade_ch_rate_{{forloop.counter0}}">{{myTrade.income_rate}}</td>
+					<td width="100" name="income_rate" id="td_myTrade_income_rate_{{forloop.counter0}}">{{myTrade.income_rate}}</td>
 					<td width="100" name="myprice" id="td_myTrade_myprice_{{forloop.counter0}}">{{myTrade.myprice}}</td>
 					<td width="100" name="quan" id="td_myTrade_quan_{{forloop.counter0}}">{{myTrade.quan}}</td>
+					<td width="100" name="t_price" id="td_myTrade_t_price_{{forloop.counter0}}">{{myTrade.t_price}}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
 		</table>
 	</div>
-	</div>
-
+</div>
 <script>
 function detail_order_click(e){
 	caller_Id = $(e).attr('copyId');
@@ -155,9 +188,9 @@ function detail_order_click(e){
 	}
 }
 function detail_order(e){
-	console.log( $(e).attr('trCode'));
+	//console.log( $(e).attr('trCode'));
 	caller_Id = $(e).attr('copyId');
-	console.log( "caller_Id : " + caller_Id);
+	//console.log( "caller_Id : " + caller_Id);
 	$.ajax({
 		url : '../detail_order/',
 		type : 'POST',
@@ -166,13 +199,13 @@ function detail_order(e){
 
 		dataType : 'json',
 		success : function(obj){
-			console.log( "#^^#");
+			//console.log( "#^^#");
 			$('#now_detail').remove();
 			var count = false
 			var txt = "";
 			txt += "<tr id='now_detail'>"
 			txt += "<td colspan='5'>"
-			txt += "<table id='detail_order' class='table table-bordered' width='350px' align='center'>"
+			txt += "<table id='detail_order' class='table table-bordered' width='450px' align='center'>"
 			txt += "<thead>"
 			txt += "<tr>"
 			txt += "<th></th><th>호가</th><th>수량</th>"
@@ -200,7 +233,6 @@ function detail_order(e){
 		},
 		error:function(request, error){
 			alert("fail");
-			console.log("code:"+request.status+"message:"+request.responseText+"error:"+error);
 		}
 	});
 }
@@ -209,8 +241,8 @@ function trade_preOrder(obj){
 	var dcode = $(obj).attr('dcode');
 	var dname = $(obj).attr('dname');
 	var dprice = getComma($(obj).attr('dprice'));
-	var dquan = $(obj).attr('dquan');
-	console.log("dquan : " + dquan);
+	var dquan = getComma($(obj).attr('dquan'));
+	//console.log("dquan : " + dquan);
 	var price = $("#tbody > tr[trCode = "+dcode+"] > td[name='price']").text();
 	$('#sTrade_Form_dname').text(dname);
 	$('#sTrade_Form_dprice').text(price);
@@ -234,32 +266,92 @@ function updatesTrade(){
 				typeST : 'update'},
 		dataType : 'json',
 		success: function(obj){
-			console.log(obj);
-			console.log(obj['sTrades']);
+			//console.log(obj);
+			//console.log(obj['sTrades']);
 			$.each(obj['sTrades'], function(idx, data){
+				var before_price = clearFormatNum($('#td_sTrade_price_'+idx).text());
+				if(before_price < clearFormatNum(data.price)){       // 변경된 데이터의 색 반짝거림
+					var hexColor = rgb2hex($('#now_sTrade_'+idx).css("background-color"));
+					if(hexColor == "#000000") hexColor = "#FFFFFF";
+					$('#now_sTrade_'+idx).css("background-color","#FC9EBD");
+					setTimeout(function() {
+						$('#now_sTrade_'+idx).css("background-color",hexColor);
+					}, 500);
+				}
+				if(before_price > clearFormatNum(data.price)){       // 변경된 데이터의 색 반짝거림
+					var hexColor = rgb2hex($('#now_sTrade_'+idx).css("background-color"));
+					if(hexColor == "#000000") hexColor = "#FFFFFF";
+					$('#now_sTrade_'+idx).css("background-color","#A8C8F9");
+					setTimeout(function() {
+						$('#now_sTrade_'+idx).css("background-color",hexColor);
+					}, 500);
+
+				}
+				if(clearFormatNum(data.price) > clearFormatNum(data.d_1price)){
+					$('#td_sTrade_change_'+idx).css("color", "#db0d36"); // 전일대비 높으면 빨간색
+				}else if(clearFormatNum(data.price) < clearFormatNum(data.d_1price)){
+					$('#td_sTrade_change_'+idx).css("color", "#0100FF"); // 전일대비 높으면 파란색
+				}else{
+					$('#td_sTrade_change_'+idx).css("color", "#000000"); // 전일대비 0이면 검정색
+				}
 				$('#td_sTrade_name_'+idx).text(data.name);
 				$('#td_sTrade_price_'+idx).text(getComma(data.price));
 				$('#td_sTrade_d_1price_'+idx).text(getComma(data.d_1price));
 				$('#td_sTrade_change_'+idx).text(getComma(data.change));
-				$('#td_sTrade_ch_rate_'+idx).text(data.ch_rate + '%');
+				$('#td_sTrade_sum_tquan_'+idx).text(getComma(data.sum_tquan));
+				$('#td_sTrade_ch_rate_'+idx).text(data.ch_rate);
+
+
 			});
 			$.each(obj['myTrades'], function(idx, data){
+			    var tr_code = $('#now_myTrade_'+idx).attr('dcode');
+			    var tr_name = $('#now_myTrade_'+idx).attr('dname');
+
+			    if(data.code != tr_code){
+					refreshMemList();
+			    }
+			    var before_price = clearFormatNum($('#td_myTrade_price_'+idx).text());
+				if(before_price < clearFormatNum(data.price)){       // 변경된 데이터의 색 반짝거림
+					var hexColor = rgb2hex($('#now_myTrade_'+idx).css("background-color"));
+					if(hexColor == "#000000") hexColor = "#FFFFFF";
+					$('#now_myTrade_'+idx).css("background-color","#FC9EBD");
+					setTimeout(function() {
+						$('#now_myTrade_'+idx).css("background-color",hexColor);
+					}, 500);
+				}
+				if(before_price > clearFormatNum(data.price)){       // 변경된 데이터의 색 반짝거림
+					var hexColor = rgb2hex($('#now_myTrade_'+idx).css("background-color"));
+					if(hexColor == "#000000") hexColor = "#FFFFFF";
+					$('#now_myTrade_'+idx).css("background-color","#A8C8F9");
+					setTimeout(function() {
+						$('#now_myTrade_'+idx).css("background-color",hexColor);
+					}, 500);
+				}
+				if(clearFormatNum(data.price) > clearFormatNum(data.myprice)){
+					$('#td_myTrade_income_rate_'+idx).css("color", "#db0d36"); // 수익률이 높으면 빨간색
+				}else if(clearFormatNum(data.price) < clearFormatNum(data.myprice)){
+					$('#td_myTrade_income_rate_'+idx).css("color", "#0100FF"); // 수익률이 높으면 파란색
+				}else{
+					$('#td_myTrade_income_rate_'+idx).css("color", "#000000"); // 수익률이 0이면 검정색
+				}
+
+
 				$('#td_myTrade_name_'+idx).text(data.name);
 				$('#td_myTrade_d_1price_'+idx).text(getComma(data.d_1price));
 				$('#td_myTrade_price_'+idx).text(getComma(data.price));
 				$('#td_myTrade_change_'+idx).text(getComma(data.change));
-				$('#td_myTrade_ch_rate_'+idx).text(data.income_rate + '%');
+				$('#td_myTrade_income_rate_'+idx).text(data.income_rate);
 				$('#td_myTrade_myprice_'+idx).text(getComma(data.myprice));
 				$('#td_myTrade_quan_'+idx).text(getComma(data.quan));
+				$('#td_myTrade_t_price_'+idx).text(getComma(data.t_price));
 			});
 
 		},
 		error:function(request, error){
 			alert("fail");
-			console.log("code:"+request.status+"message:"+request.responseText+"error:"+error);
 		}
 	});
-	timerID = setTimeout("updatesTrade()", 5000); // 5초 단위로 갱신 처리
+	timerID = setTimeout("updatesTrade()", 1000); // 5초 단위로 갱신 처리
 }
 function getComma(n) {
 	n = clearFormatNum(n);
@@ -272,6 +364,21 @@ function getComma(n) {
 function clearFormatNum(num) {
 	if (num=="") return num;
 	return String(num).replace(/,/gi, "")
+}
+function rgb2hex(rgb) {
+   rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+ 	return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
+function ColorToHex(color) {
+  var hexadecimal = color.toString(16);
+  return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
+}
+
+function ConvertRGBtoHex(red, green, blue) {
+  return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
 }
 function updatesDetail() {
 	if ( $( "#now_detail" ).length ) {
@@ -288,7 +395,7 @@ function formCheckNowPrice(){
 	}
 }
 function sTrade_trade(){
-	console.log("sTrade_trade!!!!");
+	//console.log("sTrade_trade!!!!");
 	var name = $('#sTrade_Form_dname').text();
 	var price = clearFormatNum($('#sTrade_Form_wprice').val());
 	var quan = clearFormatNum($('#sTrade_Form_dquan').val());
@@ -306,11 +413,12 @@ function sTrade_trade(){
 				gubun : gubun },
 		dataType : 'json',
 		success: function(obj){
-			refreshMemList()
+			if(gubun == "B") alert("매수주문이 완료되었습니다.");
+			if(gubun == "S") alert("매도주문이 완료되었습니다.");
+			refreshMemList();
 		},
-		error:function(request, error){
-			alert("fail sTrade_trade");
-			console.log("code:"+request.status+"message:"+request.responseText+"error:"+error);
+		error:function(data){
+           	alert(data.responseJSON.error); // the message
 		}
 	});
 }
@@ -339,7 +447,7 @@ function sTradeFormChange2(){
 <script>
 $(document).ready(function(){
 	updatesTrade();
-	setInterval("updatesDetail()", 3000);
+	setInterval("updatesDetail()", 2000);
 	setInterval("formCheckNowPrice()", 1000);
 	$('#bsBtn').click(function(){
 		/*window.alert('searchBtn click');*/
@@ -351,21 +459,19 @@ $(document).ready(function(){
 	$('#sTrade_Form_th2').click(function(){
 		sTradeFormChange2();
 	});
+	$('#header_main_title').text("주식매매");
 
-	$('#sTrade_Form_wprice').on("propertychange change keyup paste input", function() {
+
+	$('#sTrade_Form_wprice').on("change keyup", function() {
 		$('#sTrade_Form_wprice').val(getComma($('#sTrade_Form_wprice').val()));
 	});
-	$('#sTrade_Form_dquan').on("propertychange change keyup paste input", function() {
+<!--	$('#sTrade_Form_dquan').on("propertychange change keyup paste input", function() {-->
+	$('#sTrade_Form_dquan').on("change keyup", function() {
 		$('#sTrade_Form_dquan').val(getComma($('#sTrade_Form_dquan').val()));
 	});
 
-
-
-
-
-
 })
-
 </script>
-</body>
-</html>
+{% endblock %}
+
+{% include 'footer.html'%}

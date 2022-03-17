@@ -1,0 +1,178 @@
+{% include 'header.html' %}
+{% block content %}
+
+<div id="contents">
+    <style>
+		#contents{
+			width: 100%;
+ 			text-align: center;
+		}
+		#first {
+			display:inline-block;
+			width:80%;
+			height:120px;
+			position: relative;
+			overflow-y: auto;
+		}
+		#second {
+			display:inline-block;
+			width: 30%;
+			float: left;
+			position: relative;
+			left: 0%;
+		}
+		#three {
+
+			display:inline-block;
+			width:90%;
+			height:300px;
+			overflow-y: auto;
+
+		}
+		table {
+
+		  border-collapse: collapse;
+		  overflow-y: auto;
+		  align:center;
+		}
+		th{height:30px;}
+		td{height:20px;}
+
+		th{background-color: #f2f2f2;}
+		tr:nth-child(even) {background-color: #f2f2f2;}
+		input{height:60%;}
+
+    </style>
+<!--    내계좌 총자산 확인  -->
+    <div id="first" style="margin-top: 30px; width: 100% height: 300px;" >
+        <table class="table table-bordered" style="width:100%;">
+              <caption  style = "display:none;">주식종목표 </caption>
+			<colgroup>
+				<col width="40%" />
+				<col width="30%" />
+				<col width="30%" />
+
+			</colgroup>
+
+            <!--SELECT user_id, user_amt FROM userApp_webuser WHERE user_id = ? 총 자산,현금-->
+            <!--SELECT user_id, code, quen FROM tradeApp_ballance WHERE user_id = ? 주식수량-->
+
+
+			<thead align="center">
+				<tr>
+					<th>총 자산</th><th>주식</th><th>현금</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+                    <td name="tot_asset" id="tot_asset">{{tot_asset}}</td>
+					<td name="stock_prices" id="stock_prices">{{stock_prices}}</td>
+					<td name="user_amt" id="user_amt">{{user_amt}}</td>
+
+                </tr>
+			</tbody>
+        </table>
+    </div>
+
+
+    <div id="three" style="margin-top: 30px; width: 100% height: 300px;" >
+        <table class="table table-bordered"  align="left" style="width:100%; height=100%">
+            <caption  style = "display:none;">주식종목표 </caption>
+            <colgroup>
+				<col width="18%" />
+				<col width="11%" />
+				<col width="11%" />
+				<col width="12%" />
+				<col width="11%" />
+				<col width="12%" />
+				<col width="11%" />
+				<col width="14%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th style="width: 10px">종목</th><th>전일가</th><th>현재가</th><th>전일대비</th><th>수익률</th><th>매입가</th><th>수량</th><th>총금액</th>
+				</tr>
+			</thead>
+            <tbody id="tbody" stype="height:300px; width:100%;">
+            {% for myTrade in myTrades %}
+				<tr id="now_myTrade_{{forloop.counter0}}" copyId="now_myTrade_{{forloop.counter0}}" trCode="{{myTrade.code}}"
+					dcode="{{myTrade.code}}" dname="{{myTrade.name}}" dprice="{{myTrade.price}}" dquan="{{myTrade.quan}}"
+					vgubun='S'  onclick="trade_preOrder(this)" style='text-align: center;'>
+					<td width="100" name="name" id="td_myTrade_name_{{forloop.counter0}}">{{myTrade.name}}</td>
+					<td width="100" name="d_1price" id="td_myTrade_d_1price_{{forloop.counter0}}">{{myTrade.d_1price}}</td>
+					<td width="100" name="price" id="td_myTrade_price_{{forloop.counter0}}">{{myTrade.price}}</td>
+					<td width="100" name="change" id="td_myTrade_change_{{forloop.counter0}}">{{myTrade.change}}</td>
+					<td width="100" name="income_rate" id="td_myTrade_income_rate_{{forloop.counter0}}">{{myTrade.income_rate}}</td>
+					<td width="100" name="myprice" id="td_myTrade_myprice_{{forloop.counter0}}">{{myTrade.myprice}}</td>
+					<td width="100" name="quan" id="td_myTrade_quan_{{forloop.counter0}}">{{myTrade.quan}}</td>
+					<td width="100" name="t_price" id="td_myTrade_t_price_{{forloop.counter0}}">{{myTrade.t_price}}</td>
+				</tr>
+				{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<!--자바스크립트 구간-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+<script>
+
+function updatesTrade(){
+	$.ajax({
+		url: '../sTrade_myAccount/',
+		type : 'POST',
+		data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
+				typeST : 'update'},
+		dataType : 'json',
+		success: function(obj){
+			//console.log(obj);
+			//console.log(obj['sTrades']);
+
+			$('#tot_asset').text(getComma(obj['tot_asset']));
+			$('#stock_prices').text(getComma(obj['stock_prices']));
+			$('#user_amt').text(getComma(obj['user_amt']));
+
+			$.each(obj['myTrades'], function(idx, data){
+				$('#td_myTrade_name_'+idx).text(data.name);
+				$('#td_myTrade_d_1price_'+idx).text(getComma(data.d_1price));
+				$('#td_myTrade_price_'+idx).text(getComma(data.price));
+				$('#td_myTrade_change_'+idx).text(getComma(data.change));
+				$('#td_myTrade_income_rate_'+idx).text(data.income_rate);
+				$('#td_myTrade_myprice_'+idx).text(getComma(data.myprice));
+				$('#td_myTrade_quan_'+idx).text(getComma(data.quan));
+				$('#td_myTrade_t_price_'+idx).text(getComma(data.t_price));
+			});
+
+		},
+		error:function(request, error){
+			alert("fail");
+		}
+	});
+	timerID = setTimeout("updatesTrade()", 1000); // 1초 단위로 갱신 처리
+}
+function getComma(n) {
+	n = clearFormatNum(n);
+	var reg = /(^[+-]?\d+)(\d{3})/;
+	n += '';
+	while (reg.test(n))
+		n = n.replace(reg, '$1' + ',' + '$2');
+	return n;
+}
+function clearFormatNum(num) {
+	if (num=="") return num;
+	return String(num).replace(/,/gi, "")
+}
+</script>
+<script>
+$(document).ready(function(){
+	$('#header_main_title').text("My Account");
+	updatesTrade();
+});
+</script>
+
+{% endblock %}
+{% include 'footer.html'%}
