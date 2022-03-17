@@ -22,7 +22,7 @@ urlpatterns = [
 
     path('index/', views.index , name='index'),
     path('index/charts/', views.charts, name='charts'),
-    path('detail/', views.detail, name='detail'),
     path('logout/', views.logout, name='logout'),
+    path('news/',   views.news, name = 'news' ),
 
 ]

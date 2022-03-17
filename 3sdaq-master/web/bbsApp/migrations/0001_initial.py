@@ -19,4 +19,14 @@ class Migration(migrations.Migration):
                 ('user_name', models.CharField(max_length=50)),
             ],
         ),
+
+        migrations.CreateModel(
+            name='SBS',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('number', models.TextField(max_length=100)),
+                ('title', models.TextField(max_length=100)),
+                ('url', models.TextField(max_length=100)),
+            ],
+        ),
     ]

@@ -10,3 +10,6 @@ class BbsUser(models.Model) :
         return self.user_id +"\t"+ self.user_pwd +"\t"+ self.user_name
 
 
+class SBS(models.Model):
+    title = models.TextField(max_length=100)
+    url = models.TextField(max_length=100)

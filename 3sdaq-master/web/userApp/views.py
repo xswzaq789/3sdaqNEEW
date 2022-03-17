@@ -67,7 +67,7 @@ def join(request) :
     # orm : modelName(attr - value).save()
     WebUser(user_id = id , user_pwd = pwd , user_name = name).save()
     # return render(request , 'user/index.html')
-    return redirect('index')
+    return redirect('main')
 
 def aboutUs(request):
     return render(request, 'user/aboutUs.html')
