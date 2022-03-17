@@ -145,18 +145,19 @@
 		</div>
 		<table class="table table-bordered" stype="height:300px; width:100%;" align="center">
 			<colgroup>
-				<col width="18%" />
-				<col width="11%" />
-				<col width="11%" />
+				<col width="17%" />
+				<col width="10%" />
+				<col width="10%" />
+				<col width="10%" />
+				<col width="10%" />
+				<col width="10%" />
+				<col width="8%" />
 				<col width="12%" />
-				<col width="11%" />
 				<col width="12%" />
-				<col width="11%" />
-				<col width="14%" />
 			</colgroup>
 			<thead>
 				<tr>
-					<th style="width: 10px">종목</th><th>전일가</th><th>현재가</th><th>전일대비</th><th>수익률</th><th>매입가</th><th>수량</th><th>총금액</th>
+					<th style="width: 10px">종목</th><th>현재가</th><th>전일대비</th><th>수익</th><th>수익률</th><th>매입가</th><th>수량</th><th>총매입금액</th><th>총평가금액</th>
 				</tr>
 			</thead>
 			<tbody id="tbody3">
@@ -165,13 +166,15 @@
 					dcode="{{myTrade.code}}" dname="{{myTrade.name}}" dprice="{{myTrade.price}}" dquan="{{myTrade.quan}}"
 					vgubun='S'  onclick="trade_preOrder(this)" style='text-align: center;'>
 					<td width="100" name="name" id="td_myTrade_name_{{forloop.counter0}}">{{myTrade.name}}</td>
-					<td width="100" name="d_1price" id="td_myTrade_d_1price_{{forloop.counter0}}">{{myTrade.d_1price}}</td>
+<!--					<td width="100" name="d_1price" id="td_myTrade_d_1price_{{forloop.counter0}}">{{myTrade.d_1price}}</td>-->
 					<td width="100" name="price" id="td_myTrade_price_{{forloop.counter0}}">{{myTrade.price}}</td>
 					<td width="100" name="change" id="td_myTrade_change_{{forloop.counter0}}">{{myTrade.change}}</td>
+					<td width="100" name="income" id="td_myTrade_income_{{forloop.counter0}}">{{myTrade.income}}</td>
 					<td width="100" name="income_rate" id="td_myTrade_income_rate_{{forloop.counter0}}">{{myTrade.income_rate}}</td>
 					<td width="100" name="myprice" id="td_myTrade_myprice_{{forloop.counter0}}">{{myTrade.myprice}}</td>
 					<td width="100" name="quan" id="td_myTrade_quan_{{forloop.counter0}}">{{myTrade.quan}}</td>
 					<td width="100" name="t_price" id="td_myTrade_t_price_{{forloop.counter0}}">{{myTrade.t_price}}</td>
+					<td width="100" name="esti_price" id="td_myTrade_esti_price_{{forloop.counter0}}">{{myTrade.esti_price}}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
@@ -330,21 +333,27 @@ function updatesTrade(){
 				}
 				if(clearFormatNum(data.price) > clearFormatNum(data.myprice)){
 					$('#td_myTrade_income_rate_'+idx).css("color", "#db0d36"); // 수익률이 높으면 빨간색
+					$('#td_myTrade_income_'+idx).css("color", "#db0d36");
 				}else if(clearFormatNum(data.price) < clearFormatNum(data.myprice)){
 					$('#td_myTrade_income_rate_'+idx).css("color", "#0100FF"); // 수익률이 높으면 파란색
+					$('#td_myTrade_income_'+idx).css("color", "#0100FF");
 				}else{
 					$('#td_myTrade_income_rate_'+idx).css("color", "#000000"); // 수익률이 0이면 검정색
+					$('#td_myTrade_income_'+idx).css("color", "#000000");
 				}
 
 
 				$('#td_myTrade_name_'+idx).text(data.name);
-				$('#td_myTrade_d_1price_'+idx).text(getComma(data.d_1price));
+<!--				$('#td_myTrade_d_1price_'+idx).text(getComma(data.d_1price));-->
 				$('#td_myTrade_price_'+idx).text(getComma(data.price));
 				$('#td_myTrade_change_'+idx).text(getComma(data.change));
+				$('#td_myTrade_income_'+idx).text(getComma(data.income));
 				$('#td_myTrade_income_rate_'+idx).text(data.income_rate);
 				$('#td_myTrade_myprice_'+idx).text(getComma(data.myprice));
 				$('#td_myTrade_quan_'+idx).text(getComma(data.quan));
 				$('#td_myTrade_t_price_'+idx).text(getComma(data.t_price));
+				$('#td_myTrade_esti_price_'+idx).text(getComma(data.esti_price));
+
 			});
 
 		},
@@ -447,7 +456,7 @@ function sTradeFormChange2(){
 </script>
 <script>
 $(document).ready(function(){
-	$('#header_main_title').text("주식매매");
+
 
 	updatesTrade();
 	setInterval("updatesDetail()", 2000);
@@ -463,7 +472,7 @@ $(document).ready(function(){
 		sTradeFormChange2();
 	});
 
-
+	$('#header_main_title').text("주식매매");
 
 	$('#sTrade_Form_wprice').on("change keyup", function() {
 		$('#sTrade_Form_wprice').val(getComma($('#sTrade_Form_wprice').val()));

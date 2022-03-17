@@ -152,7 +152,7 @@
                         {% for n in news%}
                         <div class="box">
 
-                            <a href="{{n.url}}" target="_blank">{{n.id}}. {{n.title}}</a><span class="tab"></span>
+                            &nbsp;&nbsp;&nbsp;<a href="{{n.url}}" target="_blank" >{{n.title}}</a><span class="tab"></span>&nbsp;&nbsp;&nbsp;
                         </div>
                         {% endfor %}
                     </marquee>
@@ -168,7 +168,7 @@
 <!-- 차트 1-->
 <!--        <script src= "{% static 'assets/demo/chart-area-demo.js' %}"></script>-->
 <!-- 차트2 예제-->
-<script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>
+<!--<script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 
 <script>
@@ -177,8 +177,8 @@
 
 
             // 차트 x축 y축 값 선언
-            var testlabels =  ['2022-02-28', '2022-03-01', '2022-03-02', '2022-03-03', '2022-03-04', '2022-03-05', '2022-03-06', '2022-03-07', '2022-03-08', '2022-03-09', '2022-03-10', '2022-03-11', '2022-03-12', '2022-03-13', '2022-03-14']
-            var testdata = [100,100,100,100,100,100,100,100,100,100,100,100,100,100,100]
+            var testlabels =  ['2022-03-08', '2022-03-09', '2022-03-10', '2022-03-11', '2022-03-12', '2022-03-13', '2022-03-14', '2022-03-15', '2022-03-16', '2022-03-17', '2022-03-18', '2022-03-19', '2022-03-20', '2022-03-21']
+            var testdata = [100,100,100,100,100,100,100,100,100,100,100,100,100,100]
             // Area Chart Example
 
             var ctx = document.getElementById("myAreaChart");
@@ -361,9 +361,9 @@
                         $('#i_right').html(div);
 
                          // 좌측 스케일 최소값
-                        myLineChart2.config.options.scales.yAxes[0].ticks.min = obj[0]['min_price'] * 0.997;
+                        myLineChart2.config.options.scales.yAxes[0].ticks.min = Math.round(obj[0]['min_price'] * 0.997);
                         // 좌측 스케일 최대값
-                        myLineChart2.config.options.scales.yAxes[0].ticks.max = obj[0]['max_price'] * 1.003;
+                        myLineChart2.config.options.scales.yAxes[0].ticks.max = Math.round(obj[0]['max_price'] * 1.003);
                         myLineChart2.config.options.scales.yAxes[0].ticks.TicksLimit = 5;
 
                         // 아래두개는 안되네요..  타이틀이 안나오네요.. 이유는 모르겠어요..

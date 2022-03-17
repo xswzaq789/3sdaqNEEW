@@ -44,6 +44,13 @@ class D_price(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField(default=0)
     regdate = models.DateTimeField(auto_now=True)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["day","code"],
+                name="unique D_price",
+            )
+        ]
 
 class D_trade(models.Model):
     day = models.CharField(max_length=50, primary_key = True)

@@ -103,7 +103,7 @@ def myLineChart(request) :
 
     con = sqlite3.connect(dbURL)
     cur = con.cursor()
-    query_txt = " select day, ex_index from tradeApp_d_trade"
+    query_txt = " select day, ex_index from tradeApp_d_trade where day > (select strftime('%Y-%m-%d', 'now', 'localtime', '-14 day'))"
     cur.execute(query_txt)
     labels = []
     ex_index = []

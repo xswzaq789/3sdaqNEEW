@@ -27,6 +27,7 @@ def sTrade_list(request):
     user_id = request.POST.get('user_id', '')
 
     user_id = request.session['user_id']
+    print("user_id : ", user_id)
     d_day = '-0 day'
     market_price = query_market_price(d_day)
     myStock_price = query_myStock_price(user_id)
@@ -94,10 +95,17 @@ def sTrade_trade(request):
     jsonAry = []
     for value in my_query:
         if(my_query != []):
-            response = JsonResponse({"error": value['error']})
-            response.status_code = 403  # To announce that the user isn't allowed to publish
-            print(value['error'])
-            return response
+            try:
+                print(value['error'])
+                print("value['error'] : ", value['error'])
+                response = JsonResponse({"error": value['error']})
+                response.status_code = 403  # To announce that the user isn't allowed to publish
+
+                return response
+            except:
+                print("##########################################except!!!!")
+                print("except!!!!")
+                return JsonResponse(jsonAry, safe=False)
 
     return JsonResponse(jsonAry, safe=False)
     #my_query = [{"error": "주식이 부족해요..!!"}]
@@ -155,9 +163,9 @@ def query_market_price(d_day):
 
 def query_myStock_price(user_id):
 
-    query_txt = " select D.*"
+    query_txt = " select D.*, (D.esti_price - D.t_price) as income"
     query_txt += " from( select A.code, B.name, ifnull(C.price, B.d_1price) as price, B.d_1price, (ifnull(C.price, B.d_1price) - B.d_1price) AS change, A.price as myprice, A.quan,"
-    query_txt += " round(CAST((ifnull(C.price, B.d_1price) - A.price) AS FLOAT)/CAST(A.price AS FLOAT) * 100, 2) as income_rate, A.t_price"
+    query_txt += " round(CAST((ifnull(C.price, B.d_1price) - A.price) AS FLOAT)/CAST(A.price AS FLOAT) * 100, 2) as income_rate, A.t_price, (A.quan * ifnull(C.price, B.d_1price)) AS esti_price"
     query_txt += " from tradeApp_ballance A"
     query_txt += " join tradeApp_comp B on (A.code = B.code)"
     query_txt += " left join tradeApp_order C on(A.code = C.code and C.time2 > (select strftime('%Y-%m-%d', 'now', 'localtime')))"
@@ -472,11 +480,12 @@ def sTrade_code_data(request):
     #query_txt = " select *, max(price) as max_price, min(price) as min_price from tradeApp_d_price where code = ?"
     query_txt = " select A.*, (max_price * 1.000) as max_price, (min_price * 1.000) as min_price "
     query_txt += " from tradeApp_d_price A"
-    query_txt += " left join (select code, max(price) as max_price from tradeApp_d_price where code = ?) B"
-    query_txt += " left join (select code, min(price) as min_price from tradeApp_d_price where code = ?) C"
+    query_txt += " left join (select code, max(price) as max_price from tradeApp_d_price where code = ? and day > (select strftime('%Y-%m-%d', 'now', 'localtime', '-14 day'))) B"
+    query_txt += " left join (select code, min(price) as min_price from tradeApp_d_price where code = ? and day > (select strftime('%Y-%m-%d', 'now', 'localtime', '-14 day'))) C"
     query_txt += " on A.code = B.code "
     query_txt += " and A.code = C.code"
     query_txt += " where A.code = ?"
+    query_txt += " and A.day > (select strftime('%Y-%m-%d', 'now', 'localtime', '-14 day'))"
 
     sTrade_code_data_query = query_db(query_txt, (code, code, code))  # 종목조회 select
     print("sTrade_code_data_query : ", sTrade_code_data_query)
@@ -493,6 +502,7 @@ def sTrade_code_data(request):
         name.append(value['name'])
     print("day_list : ", day_list)
     jsonAry = []
+    print("max_price[0] : ", max_price[0]);
     jsonAry.append({
         'day_list': day_list,
         'price_list': price_list,
@@ -521,16 +531,19 @@ def sTrade_myAccount(request) :
 
 
     for value in myStock_price:
+
         value['d_1price'] = getComma(value['d_1price'])
         value['price'] = getComma(value['price'])
         value['change'] = getComma(value['change'])
         value['myprice'] = getComma(value['myprice'])
         value['quan'] = getComma(value['quan'])
         value['income_rate'] = str(value['income_rate']) + "%"
+
+        stock_prices += value['esti_price']
         print("stock_prices : ", value['t_price'])
-        stock_prices += value['t_price']
         print("stock_prices : ", stock_prices)
         value['t_price'] = getComma(value['t_price'])
+        value['esti_price'] = getComma(value['esti_price'])
     user_amt = int(sTrade_amt_query[0]['user_amt'])
     tot_asset = stock_prices + user_amt
     print("stock_prices : ", stock_prices)

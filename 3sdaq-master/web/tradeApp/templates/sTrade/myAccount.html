@@ -90,7 +90,7 @@
 			</colgroup>
 			<thead>
 				<tr>
-					<th style="width: 10px">종목</th><th>전일가</th><th>현재가</th><th>전일대비</th><th>수익률</th><th>매입가</th><th>수량</th><th>총금액</th>
+					<th style="width: 10px">종목</th><th>전일가</th><th>현재가</th><th>전일대비</th><th>수익률</th><th>매입가</th><th>수량</th><th>총평가금액</th>
 				</tr>
 			</thead>
             <tbody id="tbody" stype="height:300px; width:100%;">
@@ -105,7 +105,7 @@
 					<td width="100" name="income_rate" id="td_myTrade_income_rate_{{forloop.counter0}}">{{myTrade.income_rate}}</td>
 					<td width="100" name="myprice" id="td_myTrade_myprice_{{forloop.counter0}}">{{myTrade.myprice}}</td>
 					<td width="100" name="quan" id="td_myTrade_quan_{{forloop.counter0}}">{{myTrade.quan}}</td>
-					<td width="100" name="t_price" id="td_myTrade_t_price_{{forloop.counter0}}">{{myTrade.t_price}}</td>
+					<td width="100" name="esti_price" id="td_myTrade_esti_price_{{forloop.counter0}}">{{myTrade.esti_price}}</td>
 				</tr>
 				{% endfor %}
             </tbody>
@@ -131,7 +131,7 @@ function updatesTrade(){
 		success: function(obj){
 			//console.log(obj);
 			//console.log(obj['sTrades']);
-
+			console.log("stock_prices : ", getComma(obj['stock_prices']))
 			$('#tot_asset').text(getComma(obj['tot_asset']));
 			$('#stock_prices').text(getComma(obj['stock_prices']));
 			$('#user_amt').text(getComma(obj['user_amt']));
@@ -144,7 +144,7 @@ function updatesTrade(){
 				$('#td_myTrade_income_rate_'+idx).text(data.income_rate);
 				$('#td_myTrade_myprice_'+idx).text(getComma(data.myprice));
 				$('#td_myTrade_quan_'+idx).text(getComma(data.quan));
-				$('#td_myTrade_t_price_'+idx).text(getComma(data.t_price));
+				$('#td_myTrade_esti_price_'+idx).text(getComma(data.esti_price));
 			});
 
 		},
