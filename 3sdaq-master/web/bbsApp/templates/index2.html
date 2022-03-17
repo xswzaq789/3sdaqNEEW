@@ -1,118 +1,417 @@
-{% include 'header.html' %}
+<!DOCTYPE html>
 {% load static %}
-<style>
-.box{
-    display: inline;
-}
-</style>
-{% block content %}
-<div id="layoutSidenav_content">
-    <main>
-        <div class="container-fluid px-4">
-            <h1 class="mt-4">3sdaq</h1>
-            <br>
-            <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-primary text-white mb-4">
-                        <div class="card-body" >주식매매 </div>
-                        <!-- 버튼에 링크 걸기 -->
-                        <a class="nav-link" href = "/trade/sTrade_list/"></a>
-                        <div class="card-footer d-flex align-items-center justify-content-between"></div>
-                    </div>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Dashboard - SB Admin</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <link href="{% static 'css/styles.css'%}" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+    <script src="{% static '/resources/plugins/jQuery/jQuery-2.1.4.min.js' %}"></script>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                 </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-warning text-white mb-4">
-                        <div class="card-body">차트분석</div>
-                        <a class="nav-link" href = "/trade/sTrade_list/"></a>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Layouts
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Pages
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        Authentication
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="login.html">Login</a>
+                                            <a class="nav-link" href="register.html">Register</a>
+                                            <a class="nav-link" href="password.html">Forgot Password</a>
+                                        </nav>
+                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                        Error
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="401.html">401 Page</a>
+                                            <a class="nav-link" href="404.html">404 Page</a>
+                                            <a class="nav-link" href="500.html">500 Page</a>
+                                        </nav>
+                                    </div>
+                                </nav>
+                            </div>
+                            <div class="sb-sidenav-menu-heading">Addons</div>
+                            <a class="nav-link" href="charts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="tables.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-success text-white mb-4">
-                        <div class="card-body">내계좌</div>
-                        <a class="nav-link" href = "/trade/sTrade_list/"></a>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-
-                        </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Start Bootstrap
                     </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-danger text-white mb-4">
-                        <div class="card-body">게시판</div>
-                        <a class="nav-link" href = "/notice/index"></a>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-
-                        </div>
-                    </div>
-                </div>
+                </nav>
             </div>
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-chart-area me-1"></i>
-                            코스피
-                        </div>
-                        <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                    </div>
-                </div>
-                <div class="col-xl-6">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-chart-area me-1"></i>
-                            나스닥
-                        </div>
-                        <div class="card-body"><canvas id="myAreaChart2" width="100%" height="40"></canvas></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-table me-1"></i>
-                    DataTable Example
-                </div>
-                <div class="card-body">
-                    <table id="datatablesSimple">
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">3스닥 트레이딩 시스템</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">&nbsp;</li>
+                        </ol>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <a class="" style="text-decoration: none;" href = "/trade/sTrade_list/">
+                                        <div class="card-body" style="font-size: 30px;color: white;text-decoration: none;">주식매매 </div>
+                                    </a>
 
-                    </table>
-                </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <a class="" style="text-decoration: none;" href = "/trade/sTrade_list/">
+                                        <div class="card-body" style="font-size: 30px;color: white;text-decoration: none;">차트분석 </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <a class="" style="text-decoration: none;" href = "/trade/sTrade_list/">
+                                        <div class="card-body" style="font-size: 30px;color: white;text-decoration: none;">내계좌</div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4">
+                                    <a class="" style="text-decoration: none;" href = "/trade/sTrade_list/">
+                                        <div class="card-body" style="font-size: 30px;color: white;text-decoration: none;">--공란--</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i id="i_left" class="fas fa-chart-area me-1"></i>
+                                        3스닥
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div id="i_right" class="card-header">
+                                        <i  class="fas fa-chart-area me-1"></i>
+                                        &nbsp;
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart2" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
-    </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <!-- 차트 1-->
+<!--        <script src= "{% static 'assets/demo/chart-area-demo.js' %}"></script>-->
+        <!-- 차트2 예제-->
+        <script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+
+        <script>
+            Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+            Chart.defaults.global.defaultFontColor = '#292b2c';
+
+
+            // 차트 x축 y축 값 선언
+            var testlabels =  ['2022-02-28', '2022-03-01', '2022-03-02', '2022-03-03', '2022-03-04', '2022-03-05', '2022-03-06', '2022-03-07', '2022-03-08', '2022-03-09', '2022-03-10', '2022-03-11', '2022-03-12', '2022-03-13', '2022-03-14']
+            var testdata = [100,100,100,100,100,100,100,100,100,100,100,100,100,100,100]
+            // Area Chart Example
+
+            var ctx = document.getElementById("myAreaChart");
+            var myLineChart = new Chart(ctx, {
+                type: 'line',
+                    data: {
+                        labels: testlabels ,
+                        datasets: [{
+                            label: "3스닥지수",
+                            lineTension: 0.3,
+                            backgroundColor: "rgba(2,117,216,0.2)",
+                            borderColor: "rgba(2,117,216,1)",
+                            pointRadius: 5,
+                            pointBackgroundColor: "rgba(2,117,216,1)",
+                            pointBorderColor: "rgba(255,255,255,0.8)",
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                            pointHitRadius: 50,
+                            pointBorderWidth: 2,
+                            data: testdata ,
+                        }],
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                            display: true,
+                            text: 'TEST'
+                            }
+                        },
+                    scales: {
+                        xAxes: [{
+                            time: {
+                            unit: 'date'
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                maxTicksLimit: 15
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                min: 90,
+                                max: 110,
+                                maxTicksLimit: 5
+                            },
+                            gridLines: {
+                                color: "rgba(0, 0, 0, .125)",
+                            }
+                        }],
+                    },
+                    legend: {
+                        display: true
+                    }
+                }
+            });
+            var ctx2 = document.getElementById("myAreaChart2");
+            var myLineChart2 = new Chart(ctx2, {
+                type: 'line',
+                    data: {
+                        labels: testlabels ,
+                        datasets: [{
+                            label: "3SDAK지수",
+                            lineTension: 0.3,
+                            backgroundColor: "rgba(2,117,216,0.2)",
+                            borderColor: "rgba(2,117,216,1)",
+                            pointRadius: 5,
+                            pointBackgroundColor: "rgba(2,117,216,1)",
+                            pointBorderColor: "rgba(255,255,255,0.8)",
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                            pointHitRadius: 50,
+                            pointBorderWidth: 2,
+                            data: testdata ,
+                        }],
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                            display: true,
+                            text: 'TEST'
+                            }
+                        },
+                    scales: {
+                        xAxes: [{
+                            time: {
+                            unit: 'date'
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                maxTicksLimit: 15
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                min: 90,
+                                max: 110,
+                                maxTicksLimit: 5
+                            },
+                            gridLines: {
+                                color: "rgba(0, 0, 0, .125)",
+                            }
+                        }],
+                    },
+                    legend: {
+                        display: true
+                    }
+                }
+            });
+
+            function updatesTrade(){
+                $.ajax({
+                    url: '../myLineChart/',
+                    type : 'POST',
+                    data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
+                            },
+                    dataType : 'json',
+                    success: function(obj){
+<!--                        console.log("success");-->
+<!--                        console.log(obj[0]['labels']);-->
+<!--                        console.log(obj[0]['ex_index']);-->
+<!--                        console.log(myLineChart.config.options.plugins.title.text);-->
+<!--                        console.log(myLineChart.data.datasets[0].label);-->
+
+                        testlabels = obj[0]['labels'];
+                        // 하단 라벨 (ex: 날짜)
+                        myLineChart.data.labels = obj[0]['labels'];
+                        // value (ex: 인덱스 지수)
+                        myLineChart.data.datasets[0].data = obj[0]['ex_index'];
+                        // 위쪽 범례( 회사이름 넣으면 될듯합니다.)
+                        myLineChart.data.datasets[0].label = '3sdaq Index';
+                         // 좌측 스케일 최소값
+                        myLineChart.config.options.scales.yAxes[0].ticks.min = obj[0]['min_value'];
+                        // 좌측 스케일 최대값
+                        myLineChart.config.options.scales.yAxes[0].ticks.max = obj[0]['max_value'];
+                        myLineChart.config.options.scales.yAxes[0].ticks.maxTicksLimit = 5;
+
+                        // 아래두개는 안되네요..  타이틀이 안나오네요.. 이유는 모르겠어요..
+                        myLineChart.config.options.plugins.title.display = true;
+                        myLineChart.config.options.plugins.title.text = '3sdaq Index';
+                        // 차트 업데이트
+                        myLineChart.update();
+                    },
+                    error:function(request, error){
+                        console.log("fail !!");
+                        alert("error..!!");
+
+                    }
+                });
+            }
+            var count = 1;
+            function updatesTrade2(){
+
+                $.ajax({
+                    url : '../../trade/sTrade_code_data/',
+                    type : 'POST',
+                    data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
+                            code : count},
+
+                    dataType : 'json',
+                    success : function(obj){
+
+                        console.log("obj : " + obj[0]['day_list']);
+                        console.log("obj : " + obj[0]['price_list']);
+                        testlabels = obj[0]['day_list'];
+                        // 하단 라벨 (ex: 날짜)
+                        myLineChart2.data.labels = obj[0]['day_list'];
+                        // value (ex: 인덱스 지수)
+                        myLineChart2.data.datasets[0].data = obj[0]['price_list'];
+                        // 위쪽 범례( 회사이름 넣으면 될듯합니다.)
+                        myLineChart2.data.datasets[0].label = obj[0]['name'];
+                        var div = $('#i_right').html();
+                        var position = div.search("&nbsp;");
+                        div = div.substr(0, position);
+                        div += "&nbsp;";
+                        div += obj[0]['name'];
+                        $('#i_right').html(div);
+
+                         // 좌측 스케일 최소값
+                        myLineChart2.config.options.scales.yAxes[0].ticks.min = obj[0]['min_price'] * 0.997;
+                        // 좌측 스케일 최대값
+                        myLineChart2.config.options.scales.yAxes[0].ticks.max = obj[0]['max_price'] * 1.003;
+                        myLineChart2.config.options.scales.yAxes[0].ticks.TicksLimit = 5;
+
+                        // 아래두개는 안되네요..  타이틀이 안나오네요.. 이유는 모르겠어요..
+                        myLineChart2.config.options.plugins.title.display = true;
+                        myLineChart2.config.options.plugins.title.text = '3sdaq Index';
+                        // 차트 업데이트
+                        myLineChart2.update();
+                        count += 1;
+                        if(count > 20){
+                            count = 1;
+                        }
+                    }
+
+
+                });
+            };
 
 
 
-    <footer class="py-4 bg-light mt-auto">
-        <div class="container-fluid px-4">
-            <div class="d-flex align-items-center justify-content-between small">
-                <b>TodayNews</b>
-                    <marquee behavior="" direction="left" scrollamount="5">
-                        {% for n in news%}
-                        <div class="box">
+        </script>
+        <script>
+            $(document).ready(function(){
+                setInterval("updatesTrade()", 1000);
+                setInterval("updatesTrade2()", 1000);
 
-                            <a href="{{n.url}}" target="_blank">{{n.id}}. {{n.title}}</a><span class="tab"></span>
-                        </div>
-                        {% endfor %}
-                    </marquee>
-
-                </div>
-            </div>
-        </div>
-    </footer>
-
-</div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-<!-- 차트 1-->
-<script src= "{% static 'assets/demo/chart-area-demo.js' %}"></script>
-<!-- 차트2 예제-->
-<script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>
+            });
+	    </script>
 </body>
 </html>
-{% endblock %}
