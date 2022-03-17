@@ -1,0 +1,272 @@
+{% include 'header.html' %}
+
+{% block content %}
+<div id="layoutSidenav_content">
+                  <main>
+                        <div class="container-fluid px-4">
+                        <h1 class="mt-4">Charts</h1>
+                   <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item">차트분석</a></li>
+                        <li class="breadcrumb-item active">개별종목</li>
+                   </ol>
+                        </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="card mb-4">
+                                                <div class="card-header"  align="center">
+                                                    <i class="fas fa-chart-bar me-1"></i>
+                                                    3스닥 종목별 차트
+                                                </div>
+                                                <div class="card-body" ><canvas id="myAreaChart" width="100%" height="178"></canvas></div>
+                                                <div class="card-footer small text-muted"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="card mb-4">
+                                                <div class="card-header" align="center">
+                                                    <i class="fas fa-chart-bar me-1"></i>
+                                                    3스닥 종목 리스트
+                                                </div>
+                                                <div>
+                            <table class="table table-bordered"  align="left" style="width:100%; height=100%">
+                                <caption  style = "display:none;">이건테이블이다.</caption>
+                                <colgroup>
+                                    <col width="30%" />
+                                    <col width="20%" />
+                                    <col width="25%" />
+                                    <col width="25%" />
+                                </colgroup>
+                                <thead>
+                                    <tr align="center">
+                                        <th>종목</th><th>현재가</th><th>전일가</th><th>전일대비</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="tbody" stype="height:300px; width:100%;">
+                                    {% for sTrade in sTrades %}
+                                    <tr id="now_sTrade_{{forloop.counter0}}" copyId="now_sTrade_{{forloop.counter0}}" trCode="{{sTrade.code}}" onclick="detail_order_click(this);" style='text-align: center;'>
+                                        <td name="name" id="td_sTrade_name_{{forloop.counter0}}">{{sTrade.name}}</td>
+                                        <td name="price" id="td_sTrade_price_{{forloop.counter0}}">{{sTrade.price}}</td>
+                                        <td name="d_1price" id="td_sTrade_d_1price_{{forloop.counter0}}">{{sTrade.d_1price}}</td>
+                                        <td name="change" id="td_sTrade_change_{{forloop.counter0}}">{{sTrade.change}}</td>
+<!--                                        <td name="sum_tquan" id="td_sTrade_sum_tquan_{{forloop.counter0}}">{{sTrade.sum_tquan}}</td>-->
+<!--                                        <td name="ch_rate" id="td_sTrade_ch_rate_{{forloop.counter0}}">{{sTrade.ch_rate}}</td>-->
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+                                    <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
+                                    <div class="card-footer small text-muted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+
+
+
+    </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script>
+    function detail_order_click(e){
+
+        $.ajax({
+            url : '../sTrade_code_data/',
+            type : 'POST',
+            data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
+                    code : $(e).attr('trCode')},
+
+            dataType : 'json',
+            success : function(obj){
+
+                console.log("obj : " + obj[0]['day_list']);
+                console.log("obj : " + obj[0]['price_list']);
+                testlabels = obj[0]['day_list'];
+                // 하단 라벨 (ex: 날짜)
+                myLineChart.data.labels = obj[0]['day_list'];
+                // value (ex: 인덱스 지수)
+                myLineChart.data.datasets[0].data = obj[0]['price_list'];
+                // 위쪽 범례( 회사이름 넣으면 될듯합니다.)
+                myLineChart.data.datasets[0].label = obj[0]['name'];
+                 // 좌측 스케일 최소값
+                myLineChart.config.options.scales.yAxes[0].ticks.min = obj[0]['min_price'];
+                // 좌측 스케일 최대값
+                myLineChart.config.options.scales.yAxes[0].ticks.max = obj[0]['max_price'];
+                myLineChart.config.options.scales.yAxes[0].ticks.TicksLimit = 5;
+
+                // 아래두개는 안되네요..  타이틀이 안나오네요.. 이유는 모르겠어요..
+                myLineChart.config.options.plugins.title.display = true;
+                myLineChart.config.options.plugins.title.text = '3sdaq Index';
+                // 차트 업데이트
+                myLineChart.update();
+            }
+        });
+    };
+
+    function updatesTrade(){
+        $.ajax({
+            url: '../sTrade_list/',
+            type : 'POST',
+            data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
+                    typeST : 'update'},
+            dataType : 'json',
+            success: function(obj){
+                //console.log(obj);
+                //console.log(obj['sTrades']);
+                $.each(obj['sTrades'], function(idx, data){
+                    var before_price = clearFormatNum($('#td_sTrade_price_'+idx).text());
+                    if(before_price < clearFormatNum(data.price)){       // 변경된 데이터의 색 반짝거림
+                        var hexColor = rgb2hex($('#now_sTrade_'+idx).css("background-color"));
+                        if(hexColor == "#000000") hexColor = "#FFFFFF";
+                        $('#now_sTrade_'+idx).css("background-color","#FC9EBD");
+                        setTimeout(function() {
+                            $('#now_sTrade_'+idx).css("background-color",hexColor);
+                        }, 500);
+                    }
+                    if(before_price > clearFormatNum(data.price)){       // 변경된 데이터의 색 반짝거림
+                        var hexColor = rgb2hex($('#now_sTrade_'+idx).css("background-color"));
+                        if(hexColor == "#000000") hexColor = "#FFFFFF";
+                        $('#now_sTrade_'+idx).css("background-color","#A8C8F9");
+                        setTimeout(function() {
+                            $('#now_sTrade_'+idx).css("background-color",hexColor);
+                        }, 500);
+
+                    }
+                    if(clearFormatNum(data.price) > clearFormatNum(data.d_1price)){
+                        $('#td_sTrade_change_'+idx).css("color", "#db0d36"); // 전일대비 높으면 빨간색
+                    }else if(clearFormatNum(data.price) < clearFormatNum(data.d_1price)){
+                        $('#td_sTrade_change_'+idx).css("color", "#0100FF"); // 전일대비 높으면 파란색
+                    }else{
+                        $('#td_sTrade_change_'+idx).css("color", "#000000"); // 전일대비 0이면 검정색
+                    }
+                    $('#td_sTrade_name_'+idx).text(data.name);
+                    $('#td_sTrade_price_'+idx).text(getComma(data.price));
+                    $('#td_sTrade_d_1price_'+idx).text(getComma(data.d_1price));
+                    $('#td_sTrade_change_'+idx).text(getComma(data.change));
+                    $('#td_sTrade_sum_tquan_'+idx).text(getComma(data.sum_tquan));
+                    $('#td_sTrade_ch_rate_'+idx).text(data.ch_rate);
+                });
+
+
+            },
+            error:function(request, error){
+                alert("fail");
+            }
+        });
+        timerID = setTimeout("updatesTrade()", 1000); // 5초 단위로 갱신 처리
+    }
+    function getComma(n) {
+        n = clearFormatNum(n);
+        var reg = /(^[+-]?\d+)(\d{3})/;
+        n += '';
+        while (reg.test(n))
+            n = n.replace(reg, '$1' + ',' + '$2');
+        return n;
+    }
+    function clearFormatNum(num) {
+        if (num=="") return num;
+        return String(num).replace(/,/gi, "")
+    }
+    function rgb2hex(rgb) {
+       rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+        return (rgb && rgb.length === 4) ? "#" +
+      ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+      ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+      ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+    }
+    function ColorToHex(color) {
+      var hexadecimal = color.toString(16);
+      return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
+    }
+
+    function ConvertRGBtoHex(red, green, blue) {
+      return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
+    }
+</script>
+<script>
+$(document).ready(function(){
+	updatesTrade();
+});
+</script>
+<script>
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+
+
+// 차트 x축 y축 값 선언
+var testlabels =  ['2022-02-28', '2022-03-01', '2022-03-02', '2022-03-03', '2022-03-04', '2022-03-05', '2022-03-06', '2022-03-07', '2022-03-08', '2022-03-09', '2022-03-10', '2022-03-11', '2022-03-12', '2022-03-13', '2022-03-14']
+var testdata = [100,100,100,100,100,100,100,100,100,100,100,100,100,100,100]
+// Area Chart Example
+
+var ctx = document.getElementById("myAreaChart");
+var myLineChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: testlabels ,
+    datasets: [{
+      label: "KOSPI",
+      lineTension: 0.3,
+      backgroundColor: "rgba(2,117,216,0.2)",
+      borderColor: "rgba(2,117,216,1)",
+      pointRadius: 5,
+      pointBackgroundColor: "rgba(2,117,216,1)",
+      pointBorderColor: "rgba(255,255,255,0.8)",
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(2,117,216,1)",
+      pointHitRadius: 50,
+      pointBorderWidth: 2,
+      data: testdata ,
+    }],
+  },
+  options: {
+    plugins: {
+        title: {
+            display: true,
+            text: 'TEST'
+        }
+    },
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'date'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 15
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 90,
+          max: 110,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          color: "rgba(0, 0, 0, .125)",
+        }
+      }],
+    },
+    legend: {
+      display: true
+    }
+
+  }
+});
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<!--                    차트 3개 -->
+
+
+{% endblock %}
+
+{% include 'footer.html'%}

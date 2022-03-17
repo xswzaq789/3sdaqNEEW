@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+    padding: 0;
+    margin: 0;
+}
+footer{
+    height: 700px;
+    display: flex;
+    align-items: center;
+}
+.container{
+    display: flex;
+    width: 100%;
+    height: 35px;
+    background: #607D8B
+}
+.text{
+    width: 162px;
+    padding: 8px;
+    font-weight: bold
+    font-size: 20px;
+    color: #FFC107;
+}
+.box{
+    display: inline;
+}
+.box a{
+    text-decoration: none;
+    color: white;
+}
+.tab{
+    display: inline-block;
+    margin-left: 40px;
+}
+
+
+    </style>
+    <link rel="stylesheet" href="{% static 'chart/css/ticker.css' %}">
+</head>
+<body>
+    <table border='1'>
+        {% for u in users %}
+        <tr>
+            <td>{{u.user_id}}</td>
+            <td>{{u.user_pwd}}</td>
+            <td><a href='../detail?id={{u.user_id}}'>{{u.user_name}}</a></td>
+            <td>{{u.user_point}}</td>
+            <td>{{u.user_regdate}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="container">
+        <span class="text">Breaking News</span>
+        <marquee behavior="" direction="left" scrollamount="10">
+            {% for n in news%}
+                <div class="box">
+                    <a href="{{n.url}}" target="_blank">{{n.id}}. {{n.title}}</a><span class="tab"></span>
+                </div>
+            {% endfor %}
+        </marquee>
+    </div>
+</body>
+
+</html>

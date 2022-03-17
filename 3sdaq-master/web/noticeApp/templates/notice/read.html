@@ -1,0 +1,75 @@
+{% include 'header.html' %}
+<style type="text/css">
+    .form-label{font-size: 20pt ;}
+    .sel{width: 400%}
+
+</style>
+{% block content %}
+<body>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+            <h1 class="mt-4">게시글</h1>
+            <br>
+
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="sel">
+                        <div>
+                            <input type="hidden" name="id" id="id" value="{{board.id}}">
+
+                            <label class="form-label">TITLE</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="title"
+                                   value="{{board.title}}"
+                                   id="title">
+
+                        </div>
+                        <div>
+                            <label class="form-label">WRITER</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="writer"
+                                   value="{{board.writer}}"
+                                   readonly
+                                   id = 'writer'>
+                        </div>
+                        <div>
+                            <label class="form-label">CONTENT</label>
+                            <textarea name="content" id="content" class="form-control">{{board.content}}</textarea>
+                            <br>
+                            <br>
+                        </div>
+                        <div align="center">
+                            <button type="button" id="removeBtn" class="btn btn-dark btn-lg">삭제</button>
+                            <button type="button" id="updateBtn" class="btn btn-dark btn-lg">수정</button>
+                            <button type="button" id="listBtn" class="btn btn-dark btn-lg">목록</button>
+                        </div>
+
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                        <script>
+    $(document).ready(function() {
+        $('#listBtn').click(function() {
+            location.href = '../index' ;
+        });
+        $('#removeBtn').click(function() {
+            alert('삭제하시겠습니까?')
+            notice_id = $('#id').val()
+            location.href = '../notice_remove?id='+notice_id
+        });
+        $('#updateBtn').click(function() {
+            alert('수정하시겠습니까?')
+            notice_id      = $('#id').val()
+            notice_title   = $('#title').val()
+            notice_content = $('#content').val()
+            location.href = '../notice_update?id='+notice_id+'&title='+notice_title+'&content='+notice_content ;
+        });
+    })
+</script>
+
+</body>
+</html>
+
+{% endblock %}

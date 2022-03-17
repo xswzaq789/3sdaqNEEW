@@ -1,0 +1,48 @@
+{% include 'header.html' %}
+<style type="text/css">
+    .form-label{font-size: 20pt ;}
+    .sel{width: 400%}
+    .write{text-align: center; }
+</style>
+{% block content %}
+<body>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+            <h1 class="mt-4">글쓰기</h1>
+            <br>
+
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="sel">
+
+                        <form action="../notice_create/" method="post">
+                            {% csrf_token %}
+
+                                <label class="form-label">Title</label>
+                                <div class = "title">
+                                    <input type="text" class="form-control" name="title" placeholder="제목을 입력하세요">
+                                </div>
+                
+                            <div>
+                                <label class="form-label">Writer</label>
+                                <input type="text" class="form-control" name="writer" placeholder="작성자를 입력하세요">
+                            </div>
+                            <div>
+                                <label class="form-label">Content</label>
+                                <textarea class="form-control" name="content" placeholder="내용을 입력하세요"></textarea>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="write">
+                                <button type="submit" class="btn btn-dark btn-lg" onclick="location.href='../' ">게시판으로</button>
+                                <button type="submit" class="btn btn-dark btn-lg">작성</button> 
+                            </div>
+                        </form>
+    </main>
+</div>
+</div>
+</body>
+</html>
+{% endblock %}

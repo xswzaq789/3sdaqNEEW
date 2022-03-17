@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<!--
+보현 수정: title, Sidebar Toggle, Navbar-logout(views, url도 바꿈)
+수정 중: Navbar Toggle 수정하려다 함수만 추가하고 정지 -> Navbar 설정도 해야함
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Main Page</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <link href="{% static 'css/styles.css'%}" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="../../bbs/index">3sdaq</a>
+            <!-- Sidebar Toggle-->
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="../../user/mypage">My Page</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="../../bbs/logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">MAIN</div>
+                            <a class="nav-link" href="../../bbs/index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Main
+                            </a>
+                            <div class="sb-sidenav-menu-heading">FUNC</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Function
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="../../trade/sTrade_list">주식 매매</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">차트 분석</a>
+                                    <a class="nav-link" href="layout-sidenav-light.html">내 계좌</a>
+                                    <a class="nav-link" href="../../notice/index">게시판</a>
+                                </nav>
+                            </div>
+                            <div class="sb-sidenav-menu-heading">Others</div>
+                            <a class="nav-link" href="../../user/aboutUs2">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Guide
+                            </a>
+                            <a class="nav-link" href="../../user/mypage">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                My Page
+                            </a>
+                            <a class="nav-link" href="../../bbs/logout">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Start Bootstrap
+                    </div>
+                </nav>
+            </div>
+                   <script src="{% static '/resources/plugins/jQuery/jQuery-2.1.4.min.js' %}"></script>
