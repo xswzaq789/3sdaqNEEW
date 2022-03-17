@@ -136,7 +136,8 @@ now = datetime.now()
 nowTime = now.strftime('%H:%M:%S')
 # 주식 트레이드 타임
 not_insert = True
-point_time = "15:33:00"
+point_time = "15:30:00"
+bbs_update()
 while True:
     now2 = datetime.now()
     nowTime = now2.strftime('%H:%M:%S')
@@ -162,7 +163,7 @@ while True:
     print("Now time : ", nowTime)
     nowTime_list = nowTime.split(":")
     # 크롤링 타임
-    if(nowTime_list[1] == "32" or nowTime_list[1] == "34" ):
+    if(nowTime_list[1] == "30" or nowTime_list[1] == "00" ):
         if (nowTime_list[2] >= "00" and nowTime_list[2] <= "04"):
             bbs_update()
             print("#####  BBS UPDATE끝  #####")
