@@ -5,6 +5,12 @@ import requests
 from bs4 import BeautifulSoup
 # Create your views here.
 
+from django.http      import JsonResponse
+import os
+import sys
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+dbURL = os.path.join(BASE_DIR , 'db.sqlite3')
+
 
 
 
