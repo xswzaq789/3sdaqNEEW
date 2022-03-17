@@ -14,9 +14,11 @@ dbURL = os.path.join(BASE_DIR , 'db.sqlite3')
 
 
 
+
+
 def index(request) :
     print('##########try to move news code')
-    create()
+    #create()
     users = BbsUser.objects.all()
     news = SBS.objects.all()
     for n in news:
@@ -48,7 +50,7 @@ def charts(request) :
 
 def news(request):
     print('##########try to move news code')
-    create()
+    #create()
     users = BbsUser.objects.all()
     news = SBS.objects.all()
     for n in news:

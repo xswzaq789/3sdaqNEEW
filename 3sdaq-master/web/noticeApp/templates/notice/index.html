@@ -2,19 +2,9 @@
 <style type="text/css">
     .write{text-align: center; width:400%;}
     .table{font-size: 14pt;}
-    .sel{width:400%}
 </style>
 {% block content %}
-             <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
 
-                        <h1 class="mt-4">게시판</h1>
-                        <br>
-
-                        <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="sel">
     <select >
         <option value="title">제목</option>
         <option value="writer">작성자</option>
@@ -78,7 +68,11 @@
                 </main>
              </div>
         </div>
-
+<script>
+$(document).ready(function(){
+	$('#header_main_title').text("게시판");
+	});
+</script>
 </body>
 </html>
 {% endblock %}
