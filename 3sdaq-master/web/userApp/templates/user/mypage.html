@@ -1,22 +1,8 @@
 
 {% include 'header.html' %}
 
-<style type="text/css">
-    .sel{width:400%}
 
-</style>
 {% block content %}
-             <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-
-                        <h1 class="mt-4">My page</h1>
-                        <br>
-
-                        <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="sel">
-
 
 
 <!doctype html>
@@ -116,7 +102,14 @@
 
     <script src="../../assets/dist/js/bootstrap.bundle.min.js"></script>
 
-
+<script>
+$(document).ready(function(){
+	$('#header_main_title').text("My page");
+	});
+</script>
   </body>
+
 </html>
+
+
 {% endblock %}

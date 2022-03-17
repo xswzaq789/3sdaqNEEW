@@ -1,5 +1,6 @@
 {% include 'header.html' %}
 
+
 {% block content %}
 <!--여기서부터 내용-->
 <div id="contents">
@@ -446,6 +447,8 @@ function sTradeFormChange2(){
 </script>
 <script>
 $(document).ready(function(){
+	$('#header_main_title').text("주식매매");
+
 	updatesTrade();
 	setInterval("updatesDetail()", 2000);
 	setInterval("formCheckNowPrice()", 1000);
@@ -459,7 +462,7 @@ $(document).ready(function(){
 	$('#sTrade_Form_th2').click(function(){
 		sTradeFormChange2();
 	});
-	$('#header_main_title').text("주식매매");
+
 
 
 	$('#sTrade_Form_wprice').on("change keyup", function() {
@@ -469,8 +472,8 @@ $(document).ready(function(){
 	$('#sTrade_Form_dquan').on("change keyup", function() {
 		$('#sTrade_Form_dquan').val(getComma($('#sTrade_Form_dquan').val()));
 	});
+});
 
-})
 </script>
 {% endblock %}
 
