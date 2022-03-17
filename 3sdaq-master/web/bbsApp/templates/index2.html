@@ -11,6 +11,11 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="{% static 'css/styles.css'%}" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <style>
+.box{
+    display: inline;
+}
+</style>
 </head>
 <script src="{% static '/resources/plugins/jQuery/jQuery-2.1.4.min.js' %}"></script>
 <body class="sb-nav-fixed">
@@ -73,8 +78,8 @@
                 </div>
             </div>
             <div class="sb-sidenav-footer">
-                <div class="small">Logged in as:</div>
-                Start Bootstrap
+                <div class="small">Programmed by: </div>
+                3조 멋있조
             </div>
         </nav>
     </div>
@@ -94,14 +99,14 @@
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-warning text-white mb-4">
-                            <a class="" style="text-decoration: none;" href = "/trade/sTrade_list/">
+                            <a class="" style="text-decoration: none;" href = "/trade/sTrade_charts/">
                                 <div class="card-body" style="font-size: 30px;color: white;text-decoration: none;">차트분석 </div>
                             </a>
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
                         <div class="card bg-success text-white mb-4">
-                            <a class="" style="text-decoration: none;" href = "/trade/sTrade_list/">
+                            <a class="" style="text-decoration: none;" href = "/trade/sTrade_myAccount/">
                                 <div class="card-body" style="font-size: 30px;color: white;text-decoration: none;">내계좌</div>
                             </a>
                         </div>
