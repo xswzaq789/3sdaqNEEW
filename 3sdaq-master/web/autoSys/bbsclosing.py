@@ -83,16 +83,49 @@ def bbs_update():
 def insert_daily_prices_closing(market_price, d_day):
     con = sqlite3.connect(dbURL)
     cur = con.cursor()
-    new_market_price = []
+    new_market_price_insert = []
+    new_market_price_update = []
     for i in market_price:
-        new_market_price.append((i['code'], i['name'], i['price']))
-    #print(new_market_price)
+        query_txt = " select EXISTS( select * from tradeApp_d_price where day = strftime('%Y-%m-%d', 'now', 'localtime', ?) and code = ?)"
+        exist_day_code = 0
+        cur.execute(query_txt, (d_day, i['code']))
+        for row in cur.fetchall():
+            print("###" * 100)
+            print("###" * 100)
+            print("row : ", row)
+            exist_day_code = row[0]
+        if (exist_day_code == 1):
+            print("update")
+            new_market_price_update.append((i['price'], i['code']))
+        else:
+            print("insert")
+            new_market_price_insert.append((i['code'], i['name'], i['price']))
+        # new_market_price.append((i['code'], i['name'], i['price']))
+    # print(new_market_price)
     sql_insert = ""
-    sql_insert += "insert OR REPLACE into tradeApp_d_price(day, code, name, price, regdate)"
-    #sql_insert += "values((select strftime('%Y-%m-%d', 'now', 'localtime', '"+d_day+"')),?,?,?,(select datetime('now', 'localtime', '"+d_day+"')))"
+    sql_insert += "insert into tradeApp_d_price(day, code, name, price, regdate)"
     sql_insert += "values((select strftime('%Y-%m-%d', 'now', 'localtime', '" + d_day + "')), ?, ?, ?, (select datetime('now', 'localtime', '" + d_day + "')))"
-    # print(sql_insert)
-    cur.executemany(sql_insert, new_market_price)
+    print(sql_insert)
+    print(new_market_price_insert)
+    cur.executemany(sql_insert, new_market_price_insert)
+    con.commit()
+    sql_update = ""
+    sql_update += "update tradeApp_d_price set price = ?, regdate = (select datetime('now', 'localtime', '" + d_day + "'))"
+    sql_update += "where day = (select strftime('%Y-%m-%d', 'now', 'localtime', '" + d_day + "')) and code = ?"
+    print(sql_update)
+    print(new_market_price_update)
+    cur.executemany(sql_update, new_market_price_update)
+    con.commit()
+    # new_market_price = []
+    # for i in market_price:
+    #     new_market_price.append((i['code'], i['name'], i['price']))
+    # #print(new_market_price)
+    # sql_insert = ""
+    # sql_insert += "insert OR REPLACE into tradeApp_d_price(day, code, name, price, regdate)"
+    # #sql_insert += "values((select strftime('%Y-%m-%d', 'now', 'localtime', '"+d_day+"')),?,?,?,(select datetime('now', 'localtime', '"+d_day+"')))"
+    # sql_insert += "values((select strftime('%Y-%m-%d', 'now', 'localtime', '" + d_day + "')), ?, ?, ?, (select datetime('now', 'localtime', '" + d_day + "')))"
+    # # print(sql_insert)
+    # cur.executemany(sql_insert, new_market_price)
 
     new_market_price = []
     for i in market_price:
@@ -141,6 +174,8 @@ bbs_update()
 while True:
     now2 = datetime.now()
     nowTime = now2.strftime('%H:%M:%S')
+
+    nowTime_list = nowTime.split(":")
     if not_insert :
 
         if (nowTime > point_time):
@@ -153,15 +188,19 @@ while True:
             insert_daily_prices_closing(market_price, d_day_str)  # 날짜에 맞추어 회사 현재가 적용
             not_insert = False
         else:
+            if (nowTime_list[2] >= "00" and nowTime_list[2] <= "04"): # 1분마다
+                d_day_str = '-0 day'
+                market_price = query_market_price(d_day_str)  # 각 회사 현재가 가져옴
+                insert_daily_prices_closing(market_price, d_day_str)  # 현재가를 적용하기 위해 임시로 마감
             time_1 = datetime.strptime(point_time, "%H:%M:%S")
             time_interval = time_1 - (now2.strptime(nowTime, '%H:%M:%S'))
             print("Now time : ", nowTime, "마감까지 남은시간 : ", time_interval)
             time.sleep(5)
     else:
         time.sleep(5)
+        print("Now time : ", nowTime)
 
-    print("Now time : ", nowTime)
-    nowTime_list = nowTime.split(":")
+
     # 크롤링 타임
     if(nowTime_list[1] == "30" or nowTime_list[1] == "00" ):
         if (nowTime_list[2] >= "00" and nowTime_list[2] <= "04"):

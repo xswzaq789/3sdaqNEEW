@@ -71,10 +71,10 @@ def price_list(now_price, b_or_s):
     price_list.sort()
 
     if(b_or_s == "B") :
-        select_price = random.choices(price_list, weights=[1, 2, 10, 12, 10, 2, 1], k=1)
+        select_price = random.choices(price_list, weights=[0, 1, 3, 5, 12, 2, 1], k=1)
         return select_price[0]
     if (b_or_s == "S"):
-        select_price = random.choices(price_list, weights=[1, 2, 10, 12, 10, 2, 1], k=1)
+        select_price = random.choices(price_list, weights=[0, 2, 3, 8, 9, 2, 1], k=1)
         return select_price[0]
 
 cur = con.cursor()

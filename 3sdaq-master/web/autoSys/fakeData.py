@@ -232,19 +232,38 @@ def delete_not_sold(d_day):
 '''
 def insert_daily_prices(market_price, d_day):
     print("############   insert_daily_prices  ###################")
-    new_market_price = []
+    new_market_price_insert = []
+    new_market_price_update = []
     for i in market_price:
-        new_market_price.append((i['code'], i['name'], i['price']))
-    #print(new_market_price)
+        query_txt = " select EXISTS( select * from tradeApp_d_price where day = strftime('%Y-%m-%d', 'now', 'localtime', ?) and code = ?)"
+        exist_day_code = 0
+        cur.execute(query_txt, (d_day, i['code']))
+        for row in cur.fetchall():
+            print("###" * 100)
+            print("###" * 100)
+            print("row : ", row)
+            exist_day_code = row[0]
+        if (exist_day_code == 1):
+            print("update")
+            new_market_price_update.append((i['price'], i['code']))
+        else:
+            print("insert")
+            new_market_price_insert.append((i['code'], i['name'], i['price']))
+        # new_market_price.append((i['code'], i['name'], i['price']))
+    # print(new_market_price)
     sql_insert = ""
-    sql_insert += "insert OR REPLACE into tradeApp_d_price(day, code, name, price, regdate)"
-    #sql_insert += "values((select strftime('%Y-%m-%d', 'now', 'localtime', '"+d_day+"')),?,?,?,(select datetime('now', 'localtime', '"+d_day+"')))"
+    sql_insert += "insert into tradeApp_d_price(day, code, name, price, regdate)"
     sql_insert += "values((select strftime('%Y-%m-%d', 'now', 'localtime', '" + d_day + "')), ?, ?, ?, (select datetime('now', 'localtime', '" + d_day + "')))"
     print(sql_insert)
-    print(new_market_price)
-    print("###########   tradeApp_d_price   ####################")
-    cur.executemany(sql_insert, new_market_price)
-    print("###############################")
+    print(new_market_price_insert)
+    cur.executemany(sql_insert, new_market_price_insert)
+    con.commit()
+    sql_update = ""
+    sql_update += "update tradeApp_d_price set price = ?, regdate = (select datetime('now', 'localtime', '" + d_day + "'))"
+    sql_update += "where day = (select strftime('%Y-%m-%d', 'now', 'localtime', '" + d_day + "')) and code = ?"
+    print(sql_update)
+    print(new_market_price_update)
+    cur.executemany(sql_update, new_market_price_update)
     con.commit()
     new_market_price = []
     for i in market_price:
@@ -274,7 +293,7 @@ def insert_daily_prices(market_price, d_day):
         trade_cost = row[2]
         ex_index = row[3]
     sql_insert = ""
-    sql_insert += "insert into tradeApp_d_trade(day, volume, trade_cost, ex_index, regdate)"
+    sql_insert += "insert OR REPLACE into tradeApp_d_trade(day, volume, trade_cost, ex_index, regdate)"
     sql_insert += "values(?, ?, ?, ?, (select datetime('now', 'localtime', ?)))"
     cur.execute(sql_insert, (day, volume, trade_cost, ex_index, d_day))
     con.commit()
@@ -291,12 +310,12 @@ for i in range(14, -1, -1): # 2주 기준으로 현재가 설정(오늘꺼까지
 
     d_day_str = '-' + str(i) + ' day'
     print("d_day_str : ", d_day_str)
-    d_state = random.choices(['GOOD', 'SOSO', 'BAD'], weights=[6, 2, 1], k=1) # 그날의 상태 적용
+    d_state = random.choices(['GOOD', 'SOSO', 'BAD'], weights=[6, 3, 2], k=1) # 그날의 상태 적용
     #print("day, state : ", d_day_str, d_state[0])
     import datetime
     dt_now = datetime.datetime.now()
-    stand_time = (dt_now + datetime.timedelta(seconds=5)).strftime('%Y-%m-%d %H:%M:%S')
-    #stand_time = (dt_now + datetime.timedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')
+    #stand_time = (dt_now + datetime.timedelta(seconds=5)).strftime('%Y-%m-%d %H:%M:%S')
+    stand_time = (dt_now + datetime.timedelta(minutes=2)).strftime('%Y-%m-%d %H:%M:%S')
     stand_time = datetime.datetime.strptime(stand_time, '%Y-%m-%d %H:%M:%S')
     while True :
         if(True):
