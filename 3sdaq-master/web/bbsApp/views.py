@@ -89,3 +89,39 @@ def create():
         cur.execute(sql, (i+1, title, url))
     conn.commit()
     conn.close()
+
+def myLineChart(request) :
+    print(">>>>> myLineChart")
+
+    con = sqlite3.connect(dbURL)
+    cur = con.cursor()
+    query_txt = " select day, ex_index from tradeApp_d_trade"
+    cur.execute(query_txt)
+    labels = []
+    ex_index = []
+    min_value = 0
+    max_value = 0
+    for row in cur.fetchall():
+        labels.append(row[0])
+        ex_index.append(row[1])
+        if(min_value > row[1]):
+            min_value = row[1]
+        if (max_value < row[1]):
+            max_value = row[1]
+    print("labels : ", labels)
+    print("ex_index : ", ex_index)
+    cur.connection.close()
+    con.close()
+
+    jsonAry = []
+    my_query = []
+    #my_query = [{"id":3000}]
+    #for value in my_query:
+    jsonAry.append({
+        'labels' : labels,
+        'ex_index': ex_index,
+        'min_value': min_value,
+        'max_value': max_value,
+    })
+    print(jsonAry)
+    return JsonResponse(jsonAry, safe=False)

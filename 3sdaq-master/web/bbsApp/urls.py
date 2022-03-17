@@ -24,5 +24,6 @@ urlpatterns = [
     path('index/charts/', views.charts, name='charts'),
     path('logout/', views.logout, name='logout'),
     path('news/',   views.news, name = 'news' ),
+    path('myLineChart/', views.myLineChart, name='myLineChart'),
 
 ]
