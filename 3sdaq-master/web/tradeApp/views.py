@@ -4,7 +4,6 @@ import os
 import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 dbURL = os.path.join(BASE_DIR , 'db.sqlite3')
-print("dbURL : " , dbURL)
 
 import sqlite3
 # Create your views here.
@@ -96,15 +95,15 @@ def sTrade_trade(request):
     for value in my_query:
         if(my_query != []):
             try:
-                print(value['error'])
-                print("value['error'] : ", value['error'])
+                #print(value['error'])
+                #print("value['error'] : ", value['error'])
                 response = JsonResponse({"error": value['error']})
                 response.status_code = 403  # To announce that the user isn't allowed to publish
 
                 return response
             except:
-                print("##########################################except!!!!")
-                print("except!!!!")
+                #print("##########################################except!!!!")
+                #print("except!!!!")
                 return JsonResponse(jsonAry, safe=False)
 
     return JsonResponse(jsonAry, safe=False)
@@ -158,7 +157,7 @@ def query_market_price(d_day):
     query_txt += "    on (A.code = B.code)"
     query_txt += " )"
     query_txt += " order by code"
-    print("query_txt : ", query_txt)
+    #print("query_txt : ", query_txt)
     return query_db(query_txt)
 
 def query_myStock_price(user_id):
@@ -421,20 +420,20 @@ def ballanceUpdateQuery(gubun, bal_query_txt, user_id, code, price, value_quan, 
     return 1
 
 def auto_sTrade_trade(user_id, price, quan, code, gubun):
-    print("#" * 100)
-    print("#" * 100)
+    #print("#" * 100)
+    #print("#" * 100)
     print(">>>>>>>  auto_sTrade_trade - Start")
 
-    print("user_id : ", user_id)
-    print("price : ", price)
-    print("quan : ", quan)
-    print("code : ", code)
-    print("gubun : ", gubun)
+    #print("user_id : ", user_id)
+    #print("price : ", price)
+    #print("quan : ", quan)
+    #print("code : ", code)
+    #print("gubun : ", gubun)
 
     print(">>>>>>>  auto_sTrade_trade - End")
 
-    print("#" * 100)
-    print("#" * 100)
+    #print("#" * 100)
+    #print("#" * 100)
 
 def auto_sTrade_trade_print():
 
@@ -464,7 +463,7 @@ def sTrade_charts(request):
         value['d_1price'] = getComma(value['d_1price'])
         value['change'] = getComma(value['change'])
         value['ch_rate'] = str(value['ch_rate']) + "%"
-    print("market_price : ", market_price)
+    #print("market_price : ", market_price)
     context = {
         'sTrades': market_price,
     }
@@ -476,7 +475,7 @@ def sTrade_charts(request):
 def sTrade_code_data(request):
     print(">>>> sTrade_code_data")
     code = request.POST.get('code', '')
-    print("trCode : ", code);
+    #print("trCode : ", code);
     #query_txt = " select *, max(price) as max_price, min(price) as min_price from tradeApp_d_price where code = ?"
     query_txt = " select A.*, (max_price * 1.000) as max_price, (min_price * 1.000) as min_price "
     query_txt += " from tradeApp_d_price A"
@@ -488,7 +487,7 @@ def sTrade_code_data(request):
     query_txt += " and A.day > (select strftime('%Y-%m-%d', 'now', 'localtime', '-14 day'))"
 
     sTrade_code_data_query = query_db(query_txt, (code, code, code))  # 종목조회 select
-    print("sTrade_code_data_query : ", sTrade_code_data_query)
+    #print("sTrade_code_data_query : ", sTrade_code_data_query)
     day_list = []
     price_list = []
     max_price = []
@@ -500,9 +499,9 @@ def sTrade_code_data(request):
         max_price.append(value['max_price'])
         min_price.append(value['min_price'])
         name.append(value['name'])
-    print("day_list : ", day_list)
+    #print("day_list : ", day_list)
     jsonAry = []
-    print("max_price[0] : ", max_price[0]);
+    #print("max_price[0] : ", max_price[0]);
     jsonAry.append({
         'day_list': day_list,
         'price_list': price_list,
@@ -510,7 +509,7 @@ def sTrade_code_data(request):
         'min_price': min_price[0],
         'name': name[0],
     })
-    print(jsonAry)
+    #print(jsonAry)
     return JsonResponse(jsonAry, safe=False)
 
 def sTrade_myAccount(request) :
@@ -521,8 +520,8 @@ def sTrade_myAccount(request) :
     user_id = request.session['user_id']
     query_txt = " select user_amt from userApp_webuser where user_id = ?"
     sTrade_amt_query = query_db(query_txt, (user_id, ))  # 현금조회 select
-    print("## : ", sTrade_amt_query)
-    print("### : ", sTrade_amt_query[0]['user_amt'])
+    #print("## : ", sTrade_amt_query)
+    #print("### : ", sTrade_amt_query[0]['user_amt'])
     
     
     d_day = '-0 day'
@@ -540,15 +539,10 @@ def sTrade_myAccount(request) :
         value['income_rate'] = str(value['income_rate']) + "%"
 
         stock_prices += value['esti_price']
-        print("stock_prices : ", value['t_price'])
-        print("stock_prices : ", stock_prices)
         value['t_price'] = getComma(value['t_price'])
         value['esti_price'] = getComma(value['esti_price'])
     user_amt = int(sTrade_amt_query[0]['user_amt'])
     tot_asset = stock_prices + user_amt
-    print("stock_prices : ", stock_prices)
-    print("user_amt : ", user_amt)
-    print("tot_asset : ", tot_asset)
 
     context = {
         'myTrades': myStock_price,

@@ -13,13 +13,13 @@ from datetime import datetime
  sqlite 위치 
 '''
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print("BASE_DIR : ", BASE_DIR)
+#print("BASE_DIR : ", BASE_DIR)
 dbURL = os.path.join(BASE_DIR , 'db.sqlite3')
-print("dbURL : ", dbURL)
+#print("dbURL : ", dbURL)
 tradeAppURL = os.path.join(BASE_DIR , 'tradeApp')
-print("tradeAppURL : " , tradeAppURL)
+#print("tradeAppURL : " , tradeAppURL)
 sys.path.append(tradeAppURL)
-print(BASE_DIR)
+#print(BASE_DIR)
 con = sqlite3.connect(dbURL)
 
 from views import query_sTrade_trade
@@ -132,7 +132,6 @@ def stock_auto_trade():
 
         # 회사선택
         if(b_or_s == "B"): 
-            print("len(comp_list) ", len(comp_list))
             selected_comp = sample(comp_list, k=1)
             countB += 1
         else : # sell일때 회사선택
@@ -143,12 +142,10 @@ def stock_auto_trade():
             for row in cur.fetchall():
                 comp_list.append([row[0]])
 
-            #print("len(comp_list) == 0 ", (len(comp_list) == 0))
             if(len(comp_list) == 0):
                 continue
             selected_comp = sample(comp_list, k=1)
 
-        #print("selected_comp : ", selected_comp[0][0])
         code = selected_comp[0][0]
 
 
@@ -159,12 +156,10 @@ def stock_auto_trade():
         query_txt += " where A.code = ?"
         query_txt += " order by B.time2 desc"
 
-        #print("query_txt,  ", query_txt)
         cur.execute(query_txt, (code,))
         now_price = 0
         for row in cur.fetchall():
             now_price = row[2]
-        #print("now_price : ", now_price)
 
         price = price_list(now_price, b_or_s) # 가격 결정
         select_quan = 0
@@ -174,20 +169,16 @@ def stock_auto_trade():
             have_quan = 0
             for row in cur.fetchall():
                 have_quan = row[0]
-            #print("have_quan : ", have_quan)
             if (have_quan <= 50): # 100 주 아래로 가지고있으면 전량 판매
                 select_quan = have_quan
-                #print("1 have_quan , ", have_quan)
             elif(have_quan > 300):
                 have_quan = int(floor((have_quan/2)/10) * 10)
-                #print("2 have_quan , ", have_quan)
                 select_quan = randrange(50, have_quan, 10)  # 수량 결정
             else:
-                #print("3 have_quan , ", have_quan)
                 select_quan = randrange(50, have_quan, 10)  # 수량 결정
         else:
             select_quan = randrange(10, 100, 10)  # 수량 결정
-        #print('user_id, price, select_quan, code, b_or_s : ', user_id, price, select_quan, code, b_or_s)
+        print('ID : ', user_id, ' 가격 : ', price, ' 수량 : ',  select_quan, ' 회사코드 : ', code, '매수/매도 : ', b_or_s)
         d_day = '-0 day'
         query_sTrade_trade(user_id, price, select_quan, code, b_or_s, d_day)
         #print("countB, countS, total1 : ", countB, countS, countB+countS)

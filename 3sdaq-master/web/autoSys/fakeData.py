@@ -15,13 +15,13 @@ from datetime import datetime
  sqlite 위치 
 '''
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print("BASE_DIR : ", BASE_DIR)
+#print("BASE_DIR : ", BASE_DIR)
 dbURL = os.path.join(BASE_DIR , 'db.sqlite3')
-print("dbURL : ", dbURL)
+#print("dbURL : ", dbURL)
 tradeAppURL = os.path.join(BASE_DIR , 'tradeApp')
-print("tradeAppURL : " , tradeAppURL)
+#print("tradeAppURL : " , tradeAppURL)
 sys.path.append(tradeAppURL)
-print(BASE_DIR)
+#print(BASE_DIR)
 con = sqlite3.connect(dbURL)
 
 from views import query_sTrade_trade
@@ -231,7 +231,7 @@ def delete_not_sold(d_day):
     현재가 저장
 '''
 def insert_daily_prices(market_price, d_day):
-    print("############   insert_daily_prices  ###################")
+    #print("############   insert_daily_prices  ###################")
     new_market_price_insert = []
     new_market_price_update = []
     for i in market_price:
@@ -239,30 +239,30 @@ def insert_daily_prices(market_price, d_day):
         exist_day_code = 0
         cur.execute(query_txt, (d_day, i['code']))
         for row in cur.fetchall():
-            print("###" * 100)
-            print("###" * 100)
-            print("row : ", row)
+            #print("###" * 100)
+            #print("###" * 100)
+            #print("row : ", row)
             exist_day_code = row[0]
         if (exist_day_code == 1):
-            print("update")
+            #print("update")
             new_market_price_update.append((i['price'], i['code']))
         else:
-            print("insert")
+            #print("insert")
             new_market_price_insert.append((i['code'], i['name'], i['price']))
         # new_market_price.append((i['code'], i['name'], i['price']))
     # print(new_market_price)
     sql_insert = ""
     sql_insert += "insert into tradeApp_d_price(day, code, name, price, regdate)"
     sql_insert += "values((select strftime('%Y-%m-%d', 'now', 'localtime', '" + d_day + "')), ?, ?, ?, (select datetime('now', 'localtime', '" + d_day + "')))"
-    print(sql_insert)
-    print(new_market_price_insert)
+    #print(sql_insert)
+    #print(new_market_price_insert)
     cur.executemany(sql_insert, new_market_price_insert)
     con.commit()
     sql_update = ""
     sql_update += "update tradeApp_d_price set price = ?, regdate = (select datetime('now', 'localtime', '" + d_day + "'))"
     sql_update += "where day = (select strftime('%Y-%m-%d', 'now', 'localtime', '" + d_day + "')) and code = ?"
-    print(sql_update)
-    print(new_market_price_update)
+    #print(sql_update)
+    #print(new_market_price_update)
     cur.executemany(sql_update, new_market_price_update)
     con.commit()
     new_market_price = []
@@ -285,9 +285,9 @@ def insert_daily_prices(market_price, d_day):
     day, volume, trade_cost, ex_index = "", 0, 0, 0.0
 
     for row in cur.fetchall():
-        print("###" * 100)
-        print("###" * 100)
-        print("row : ", row)
+        #print("###" * 100)
+        #print("###" * 100)
+        #print("row : ", row)
         day = row[0]
         volume = row[1]
         trade_cost = row[2]
@@ -297,6 +297,7 @@ def insert_daily_prices(market_price, d_day):
     sql_insert += "values(?, ?, ?, ?, (select datetime('now', 'localtime', ?)))"
     cur.execute(sql_insert, (day, volume, trade_cost, ex_index, d_day))
     con.commit()
+    print('날짜 : ', day, ' 거래량 : ', volume, ' 거래대금 : ', trade_cost, ' 3스닥지수 : ', ex_index)
 
 
 list_setting() #유저세팅
@@ -309,13 +310,13 @@ while_count = 0
 for i in range(14, -1, -1): # 2주 기준으로 현재가 설정(오늘꺼까지 총 15일)
 
     d_day_str = '-' + str(i) + ' day'
-    print("d_day_str : ", d_day_str)
+    print("Day : ", d_day_str + " 데이터 생성중...")
     d_state = random.choices(['GOOD', 'SOSO', 'BAD'], weights=[6, 3, 2], k=1) # 그날의 상태 적용
     #print("day, state : ", d_day_str, d_state[0])
     import datetime
     dt_now = datetime.datetime.now()
-    #stand_time = (dt_now + datetime.timedelta(seconds=5)).strftime('%Y-%m-%d %H:%M:%S')
-    stand_time = (dt_now + datetime.timedelta(minutes=2)).strftime('%Y-%m-%d %H:%M:%S')
+    stand_time = (dt_now + datetime.timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
+    #stand_time = (dt_now + datetime.timedelta(minutes=2)).strftime('%Y-%m-%d %H:%M:%S')
     stand_time = datetime.datetime.strptime(stand_time, '%Y-%m-%d %H:%M:%S')
     while True :
         if(True):
@@ -327,7 +328,7 @@ for i in range(14, -1, -1): # 2주 기준으로 현재가 설정(오늘꺼까지
     delete_not_sold(d_day_str) # 거래가 되지않은 데이터 지우고
     market_price = query_market_price(d_day_str) # 각 회사 현재가 가져옴
     #print("market_price : ", market_price)
-    print("insert_daily_prices 호출")
+    #print("insert_daily_prices 호출")
     insert_daily_prices(market_price, d_day_str) # 날짜에 맞추어 회사 현재가 적용
 print("## fackData 완료 ##")
 con.close()

@@ -31,7 +31,7 @@ def login(request) :
     return render(request, 'login2.html')
 
 def logout(request) :
-    print(">>>> user logout")
+    #print(">>>> user logout")
     # 세션을 삭제
     request.session['user_name'] = {}
     request.session['user_id'] = {}
@@ -116,8 +116,8 @@ def myLineChart(request) :
             min_value = row[1]
         if (max_value < row[1]):
             max_value = row[1]
-    print("labels : ", labels)
-    print("ex_index : ", ex_index)
+    #print("labels : ", labels)
+    #print("ex_index : ", ex_index)
     cur.connection.close()
     con.close()
 
@@ -131,5 +131,5 @@ def myLineChart(request) :
         'min_value': min_value,
         'max_value': max_value,
     })
-    print(jsonAry)
+    #print(jsonAry)
     return JsonResponse(jsonAry, safe=False)
