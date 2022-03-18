@@ -1,5 +1,7 @@
 {% include 'header.html' %}
 
+{% load static %}
+
 {% block content %}
 
 <!doctype html>
@@ -42,44 +44,37 @@
   <body>
 
 <main>
-
-
-
     <!-- START THE FEATURETTES -->
-
     <hr class="featurette-divider">
-
     <div class="row featurette">
-      <div class="col-md-7">
-        <h4 class="featurette-heading">1. autoSys 디렉토리에서 다음과 같은 명령어를 입력해주세요.</h4><h5><span class="text-muted">(유저, 회사정보가 생성됩니다.)</span></h5>
-        <br>
-
-        <p class="lead">&nbsp;&nbsp;&nbsp;1) python pri_data.py</p>
-        <p class="lead">&nbsp;&nbsp;&nbsp;2) python fakeData.py </p>
-        <h4 class="featurette-heading">2. 데이터가 생성된 후 명령어를 입력해주세요.</h4><h5><span class="text-muted">(3시 30분에 장마감을 하게됩니다.)</span></h5>
-        <br>
-        <p class="lead">&nbsp;&nbsp;&nbsp;3). python bbsclosing.py </p>
-        <h4 class="featurette-heading">3. 터미널을 추가 후 명령어를 입력해주세요.</h4><h5><span class="text-muted">(DUMMY유저의 트레이딩이 시작됩니다.)</span></h5>
-        <br>
-        <p class="lead">&nbsp;&nbsp;&nbsp;4). python autoTrade.py </p>
-      </div>
-      <div class="col-md-5">
-        <img src="userApp/templates/user/guide01.png"/>
-
-
-      </div>
+    <div class="col-md-6">
+        <h4 class="featurette-heading"> <br><br><br><br><br><br><br><br><br><br><b>&nbsp;저희 페이지의 흐름을 보여주는 flowchart입니다.</b></h4>
+        <p class="lead">&nbsp;&nbsp;저희의 코드를 보시려면 flowchart에 명시된 디렉토리에 들어가세요.</p>
+    </div>
+    <div class="col-md-4">
+        <img src="{% static '/resources/img/NEW_flowchart.png' %}" width="700">
+    </div>
     </div>
 
     <hr class="featurette-divider">
-
     <div class="row featurette">
-      <div class="col-md-7 order-md-2">
-        <h4 class="featurette-heading">4. web디렉토리에서 명령어를 실행해 주세요.</h4><h5><span class="text-muted">(서버를 실행합니다.)</span></h5>
-        <br>
-        <p class="lead">&nbsp;&nbsp;&nbsp;1) python manage.py runserver</p>
+      <div class="col-md-6">
+          <h4 class="featurette-heading"><b>1. autoSys 디렉토리에서 다음 명령어를 입력해주세요.</b></h4><h5><span class="text-muted">(유저, 회사정보가 생성됩니다.)</span></h5>
+        <p class="lead">&nbsp;&nbsp;&nbsp;1) python pri_data.py</p>
+        <p class="lead">&nbsp;&nbsp;&nbsp;2) python fakeData.py </p><br>
+        <h4 class="featurette-heading"><b>2. 데이터가 생성된 후 명령어를 입력해주세요.</b></h4><h5><span class="text-muted">(3시 30분에 장마감을 하게됩니다.)</span></h5>
+        <p class="lead">&nbsp;&nbsp;&nbsp;3) python bbsclosing.py </p><br>
+          <h4 class="featurette-heading"><b>3. 터미널을 추가 후 명령어를 입력해주세요.</b></h4><h5><span class="text-muted">(DUMMY유저의 트레이딩이 시작됩니다.)</span></h5>
+
+        <p class="lead">&nbsp;&nbsp;&nbsp;4) python autoTrade.py </p><br>
+        <h4 class="featurette-heading"><b>4. web디렉토리에서 명령어를 실행해 주세요.</b></h4><h5><span class="text-muted">(서버를 실행합니다.)</span></h5>
+
+        <p class="lead">&nbsp;&nbsp;&nbsp;5) python manage.py runserver</p>
+
       </div>
-      <div class="col-md-5 order-md-1">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+      <div class="col-md-4">
+
+        <img src="{% static '/resources/img/guide01.png' %}" width="700">
 
       </div>
     </div>
@@ -104,7 +99,7 @@
 
 <script>
 $(document).ready(function(){
-	$('#header_main_title').text("How to use Our Page");
+	$('#header_main_title').text("Guide");
 	});
 </script>
   </body>
