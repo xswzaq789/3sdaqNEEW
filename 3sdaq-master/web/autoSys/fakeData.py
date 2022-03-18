@@ -330,7 +330,7 @@ for i in range(14, -1, -1): # 2주 기준으로 현재가 설정(오늘꺼까지
     #print("market_price : ", market_price)
     #print("insert_daily_prices 호출")
     insert_daily_prices(market_price, d_day_str) # 날짜에 맞추어 회사 현재가 적용
-print("## fackData 완료 ##")
+print("## fakeData 완료 ##")
 con.close()
 
 
