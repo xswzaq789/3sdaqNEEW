@@ -191,7 +191,7 @@ while True:
             if (nowTime_list[2] >= "00" and nowTime_list[2] <= "04"): # 1분마다
                 d_day_str = '-0 day'
                 market_price = query_market_price(d_day_str)  # 각 회사 현재가 가져옴
-                print("######## 임시 insert_daily_prices_closing #########")
+                print("##### 임시 마감처리 #####")
                 insert_daily_prices_closing(market_price, d_day_str)  # 현재가를 적용하기 위해 임시로 마감
             time_1 = datetime.strptime(point_time, "%H:%M:%S")
             time_interval = time_1 - (now2.strptime(nowTime, '%H:%M:%S'))
