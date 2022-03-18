@@ -5,7 +5,7 @@
 @likeaAI  
 @liveAnyware 
 ## flowchart
-![NEW_flowchart](./NEW_flowchart.png)
+![NEW_flowchart](./NEW_flowchart.PNG)
 ## How to use this?
 1. 다운 받으세요.
 2. 파이참 등을 여신 후에 terminal로 갑니다.
