@@ -16,6 +16,6 @@
 8. 터미널을 추가 후 autoSys 디렉토리에서 Dummy 유저의 트레이딩을 시작할 명령어를 입력하세요.
    - python autoTrade.py
 10. 터미널을 추가 후 web 디렉토리에서 서버를 실행할 명령어를 입력하세요.
-   - python manage.py runserver
+   - python manage.py runserver  
 
 어디선가 막히신다면 python manage.py collectstatic 를 합시다!
