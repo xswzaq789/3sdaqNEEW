@@ -12,14 +12,14 @@ import urllib.request as req
  sqlite 위치 
 '''
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print("BASE_DIR : ", BASE_DIR)
+#print("BASE_DIR : ", BASE_DIR)
 dbURL = os.path.join(BASE_DIR , 'db.sqlite3')
-print("dbURL : ", dbURL)
+#print("dbURL : ", dbURL)
 tradeAppURL = os.path.join(BASE_DIR , 'tradeApp')
-print("tradeAppURL : " , tradeAppURL)
+#print("tradeAppURL : " , tradeAppURL)
 sys.path.append(tradeAppURL)
 
-print(BASE_DIR)
+#print(BASE_DIR)
 con = sqlite3.connect(dbURL)
 
 from views import query_market_price
@@ -61,7 +61,7 @@ def bbs_update():
     soup = BeautifulSoup(target, "html.parser")
     #file = open("news.txt", "w")
     news = soup.select("strong.tit_g")
-    print("len(news) : ", len(news))
+    #print("len(news) : ", len(news))
     if(len(news) > 5):
         sql_delete = "delete from bbsApp_sbs"
         cur.execute(sql_delete)
@@ -90,30 +90,30 @@ def insert_daily_prices_closing(market_price, d_day):
         exist_day_code = 0
         cur.execute(query_txt, (d_day, i['code']))
         for row in cur.fetchall():
-            print("###" * 100)
-            print("###" * 100)
-            print("row : ", row)
+            #print("###" * 100)
+            #print("###" * 100)
+            #print("row : ", row)
             exist_day_code = row[0]
         if (exist_day_code == 1):
-            print("update")
+            #print("update")
             new_market_price_update.append((i['price'], i['code']))
         else:
-            print("insert")
+            #print("insert")
             new_market_price_insert.append((i['code'], i['name'], i['price']))
         # new_market_price.append((i['code'], i['name'], i['price']))
     # print(new_market_price)
     sql_insert = ""
     sql_insert += "insert into tradeApp_d_price(day, code, name, price, regdate)"
     sql_insert += "values((select strftime('%Y-%m-%d', 'now', 'localtime', '" + d_day + "')), ?, ?, ?, (select datetime('now', 'localtime', '" + d_day + "')))"
-    print(sql_insert)
-    print(new_market_price_insert)
+    #print(sql_insert)
+    #print(new_market_price_insert)
     cur.executemany(sql_insert, new_market_price_insert)
     con.commit()
     sql_update = ""
     sql_update += "update tradeApp_d_price set price = ?, regdate = (select datetime('now', 'localtime', '" + d_day + "'))"
     sql_update += "where day = (select strftime('%Y-%m-%d', 'now', 'localtime', '" + d_day + "')) and code = ?"
-    print(sql_update)
-    print(new_market_price_update)
+    #print(sql_update)
+    #print(new_market_price_update)
     cur.executemany(sql_update, new_market_price_update)
     con.commit()
     # new_market_price = []
@@ -147,9 +147,9 @@ def insert_daily_prices_closing(market_price, d_day):
     day, volume, trade_cost, ex_index = "", 0, 0, 0.0
 
     for row in cur.fetchall():
-        print("###" * 100)
-        print("###" * 100)
-        print("row : ", row)
+        #print("###" * 100)
+        #print("###" * 100)
+        #print("row : ", row)
         day = row[0]
         volume = row[1]
         trade_cost = row[2]
@@ -179,18 +179,19 @@ while True:
     if not_insert :
 
         if (nowTime > point_time):
-            print("execute time : ", nowTime)
+            #print("execute time : ", nowTime)
             d_day_str = '-0 day'
             market_price = query_market_price(d_day_str)  # 각 회사 현재가 가져옴
             # print("market_price : ", market_price)
-            print("market_price : ", market_price)
-            print("######## insert_daily_prices_closing")
+            #print("market_price : ", market_price)
+            print("######## insert_daily_prices_closing #########")
             insert_daily_prices_closing(market_price, d_day_str)  # 날짜에 맞추어 회사 현재가 적용
             not_insert = False
         else:
             if (nowTime_list[2] >= "00" and nowTime_list[2] <= "04"): # 1분마다
                 d_day_str = '-0 day'
                 market_price = query_market_price(d_day_str)  # 각 회사 현재가 가져옴
+                print("##### 임시 마감처리 #####")
                 insert_daily_prices_closing(market_price, d_day_str)  # 현재가를 적용하기 위해 임시로 마감
             time_1 = datetime.strptime(point_time, "%H:%M:%S")
             time_interval = time_1 - (now2.strptime(nowTime, '%H:%M:%S'))
