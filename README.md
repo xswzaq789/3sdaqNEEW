@@ -1,7 +1,8 @@
 # 3sdaqNEEW
 
-image : Mar 17 flowchart  
-flowchart에 넣을 것 말해주세요!  
-flowchart에 기능 들어간 App 이름이 다르면 알려주세요!
-1. (민수님, 윤섭님) 파일 제외 완성된 파일  
-2. 사이브바 링크, 게시판 서치 해결하기
+## How to use this?
+1. 다운 받으세용
+2. 파이참 등을 여신 후에 terminal로 갑니당
+ <ol> ssss
+  sssss
+  sss
