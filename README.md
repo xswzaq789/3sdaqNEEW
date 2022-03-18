@@ -17,5 +17,6 @@
    - python autoTrade.py
 7. 터미널을 추가 후 web 디렉토리에서 서버를 실행할 명령어를 입력하세요.
    - python manage.py runserver  
+8. 나온 링크(http://127.0.0.1:8000/)로 들어가서 보면 됩니다.
 
 어디선가 막히신다면 python manage.py collectstatic 를 합시다!
