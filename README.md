@@ -1,8 +1,7 @@
 # 3sdaqNEEW
 ## Who maed this?
-@xswzaq789, @yourms, @likeaAI, @liveAnyware
+@xswzaq789 @yourms @likeaAI @liveAnyware
 ## How to use this?
-
 1. 다운 받으세요.
 2. 파이참 등을 여신 후에 terminal로 갑니다.
 3. 다음과 같은 명령어를 이용해 autosys 디렉토리로 갑시다.
