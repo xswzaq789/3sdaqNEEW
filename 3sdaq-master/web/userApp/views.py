@@ -1,4 +1,5 @@
 from django.shortcuts import render , redirect
+from django.http      import JsonResponse
 from .models          import *
 import time
 import os.path
@@ -63,11 +64,17 @@ def join(request) :
     pwd  = request.POST['pwd']
     name = request.POST['name']
     print('>>>> param values - ', id, pwd, name)
-    # insert into table(id, pwd, name) values('','','')
-    # orm : modelName(attr - value).save()
-    WebUser(user_id = id , user_pwd = pwd , user_name = name).save()
-    # return render(request , 'user/index.html')
-    return redirect('main')
+    user = WebUser.objects.filter(user_id=id)
+    jsonAry = []
+    if(user.count() > 0):
+        response = JsonResponse({"error": "사용중인 ID 입니다."})
+        response.status_code = 403
+        return response
+    else:
+        WebUser(user_id=id, user_pwd=pwd, user_name=name).save()
+        return JsonResponse(jsonAry, safe=False)
+
+
 
 def aboutUs(request):
     return render(request, 'user/aboutUs.html')
