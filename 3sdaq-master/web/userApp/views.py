@@ -73,18 +73,28 @@ def aboutUs(request):
     return render(request, 'user/aboutUs.html')
 
 def aboutUs2(request):
-    return render(request, 'user/aboutUs2.html')
+    try:
+        session_user_id = request.session['user_id']
+        return render(request, 'user/aboutUs2.html')
+    except Exception as e:
+        print("e : ", e)
+        return redirect('main')
 
 def mypage(request):
     print(">>>>> user page")
-    if request.session.get('user_name'):
-        print('>>>> Yeah!!')
-        context = {
-            'session_user_name': request.session['user_name'],
-            'session_user_id': request.session['user_id'],
-            'session_user_pwd' : request.session['user_pwd'],
-        }
-    return render(request, 'user/mypage.html', context)
+    try:
+        session_user_id = request.session['user_id']
+        if request.session.get('user_name'):
+            print('>>>> Yeah!!')
+            context = {
+                'session_user_name': request.session['user_name'],
+                'session_user_id': request.session['user_id'],
+                'session_user_pwd' : request.session['user_pwd'],
+            }
+        return render(request, 'user/mypage.html', context)
+    except Exception as e:
+        print("e : ", e)
+        return redirect('main')
 
 def logout(request) :
     print(">>>> user logout")

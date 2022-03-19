@@ -92,7 +92,7 @@ def list_setting():
     global user_list
     global comp_list
 
-    sql_select = "select user_id from userApp_webuser"
+    sql_select = "select user_id from userApp_webuser where user_name like '%_Bot'"
     cur.execute(sql_select)
 
     for row in cur.fetchall():

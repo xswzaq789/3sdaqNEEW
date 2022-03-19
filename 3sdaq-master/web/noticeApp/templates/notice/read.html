@@ -8,7 +8,8 @@
 
 <div>
     <input type="hidden" name="id" id="id" value="{{board.id}}">
-
+    <input type="hidden" name="userId" id="userId" value="{{userId}}">
+    <input type="hidden" name="writerId" id="writerId" value="{{writerId}}">
     <label class="form-label">TITLE</label>
     <input type="text"
            class="form-control"
@@ -44,17 +45,28 @@
         $('#listBtn').click(function() {
             location.href = '../index' ;
         });
+
         $('#removeBtn').click(function() {
-            alert('삭제하시겠습니까?')
-            notice_id = $('#id').val()
-            location.href = '../notice_remove?id='+notice_id
+            if($('#userId').val() == $('#writerId').val()){
+                alert('삭제하시겠습니까?');
+                notice_id = $('#id').val();
+                location.href = '../notice_remove?id='+notice_id;
+            }else{
+                alert('작성자가 아닙니다.');
+            }
         });
+
         $('#updateBtn').click(function() {
-            alert('수정하시겠습니까?')
-            notice_id      = $('#id').val()
-            notice_title   = $('#title').val()
-            notice_content = $('#content').val()
-            location.href = '../notice_update?id='+notice_id+'&title='+notice_title+'&content='+notice_content ;
+            if($('#userId').val() == $('#writerId').val()){
+                alert('수정하시겠습니까?')
+                notice_id      = $('#id').val();
+                notice_title   = $('#title').val();
+                notice_content = $('#content').val();
+                location.href = '../notice_update?id='+notice_id+'&title='+notice_title+'&content='+notice_content ;
+            }else{
+                alert('작성자가 아닙니다.');
+            }
+
         });
     })
 </script>

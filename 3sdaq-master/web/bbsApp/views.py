@@ -18,14 +18,19 @@ dbURL = os.path.join(BASE_DIR , 'db.sqlite3')
 
 def index(request) :
     print('##########try to move news code')
-    #create()
-    users = BbsUser.objects.all()
-    news = SBS.objects.all()
-    for n in news:
-        print(n.url)
-    context = {'users': users,
-               'news': news}
-    return render(request, 'index2.html', context)
+    try:
+        session_user_id = request.session['user_id']
+        #create()
+        users = BbsUser.objects.all()
+        news = SBS.objects.all()
+        for n in news:
+            print(n.url)
+        context = {'users': users,
+                   'news': news}
+        return render(request, 'index2.html', context)
+    except Exception as e:
+        print("e : ", e)
+        return redirect('main')
 
 def login(request) :
     return render(request, 'login2.html')

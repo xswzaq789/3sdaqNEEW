@@ -9,14 +9,14 @@ def input_webuser():
 
         sql_insert = ""
         sql_insert += "insert into userApp_webuser(user_id, user_pwd, user_name, user_acct, user_amt, user_regdate)"
-        sql_insert += "values('user" + str(count) + "', 'user" + str(count) + "', '유저" + str(count) + "', '001-23456-0" + str(count) + "' ,1000000000, (select datetime('now', 'localtime')))"
+        sql_insert += "values('user" + str(count) + "', 'user" + str(count) + "', '유저" + str(count) + "_Bot', '001-23456-0" + str(count) + "' ,1000000000, (select datetime('now', 'localtime')))"
         #print(sql_insert)
         cur.execute(sql_insert)
         count += 1
         if(count > 20):
             sql_insert = ""
             sql_insert += "insert into userApp_webuser(user_id, user_pwd, user_name, user_acct, user_amt, user_regdate)"
-            sql_insert += "values('blackrock', 'blackrock', 'blackrock', '999-23456-651' ,1000000000000000, (select datetime('now', 'localtime')))"
+            sql_insert += "values('blackrock', 'blackrock', 'blackrock_Bot', '999-23456-651' ,1000000000000000, (select datetime('now', 'localtime')))"
             # print(sql_insert)
             cur.execute(sql_insert)
             break
