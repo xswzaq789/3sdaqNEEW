@@ -107,12 +107,18 @@ def update(request) :
 
 def search(request):
     print('>>>>> notice search')
-    type = request.POST['type']
-    keyword = request.POST['keyword']
-    print('debug', type, keyword)
-    jsonAry = [
-        {'id': 'pbh', 'title': '공지'},
-        {'id': 'admin', 'title': '즐거운 금요일'},
-    ]
-    return JsonResponse(jsonAry, safe = False)
+    typeS = request.POST.get('typeS', '')
+    keyword = request.POST.get('keyword', '')
+    print('debug', typeS, keyword)
+    boards = ()
+    if(typeS == "title"):
+        boards = WebNotice.objects.filter(title__icontains=keyword)
+    elif(typeS == "writer"):
+        boards = WebNotice.objects.filter(writer__icontains=keyword)
+    print(boards)
+    context = {
+        'boards': boards
+    }
+
+    return render(request , 'notice/index.html' , context)
 

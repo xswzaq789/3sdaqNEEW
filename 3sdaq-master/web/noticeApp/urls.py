@@ -9,5 +9,5 @@ urlpatterns = [
     path('notice_read/',        views.read ,        name='notice_read'),
     path('notice_remove/',      views.remove ,      name='notice_remove'),
     path('notice_update/',      views.update ,      name='notice_update'),
-    path('notice_search',      views.search,       name='notice_search'),
+    path('notice_search/',      views.search,       name='notice_search'),
 ]

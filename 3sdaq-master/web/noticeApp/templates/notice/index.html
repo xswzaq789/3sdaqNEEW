@@ -1,19 +1,23 @@
 {% include 'header.html' %}
 <style type="text/css">
-    .write{text-align: center; width:400%;}
+    .write{text-align: center; width:100%;}
     .table{font-size: 14pt;}
 </style>
 {% block content %}
+<div >
 
-    <select >
-        <option value="title">제목</option>
-        <option value="writer">작성자</option>
-    </select>
-    <input type = "text" name="keyword" id="keyword">
-    <button type="button" class="btn btn-dark btn-sm" id = "searchBtn">검색</button>
+    <form action="../notice_search/" method="post" onsubmit="validCheck()" class="">
+        {% csrf_token %}
+        <select name="typeS" id="typeS">
+            <option value="title">제목</option>
+            <option value="writer">작성자</option>
+        </select>
+        <input type = "text" name="keyword" id="keyword">
+        <button type="submit" class="btn btn-dark btn-sm" id = "searchBtn">검색</button>
+    </form>
 </div>
-
-<table class="table table-hover" style="width:400%">
+<div>
+<table class="table table-hover" style="width:100%">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -35,32 +39,44 @@
     {% endfor %}
   </tbody>
 </table>
+</div>
 <p/>
 
+<br/>
 <div class="write">
     <button type="button" class="btn btn-dark btn-lg" onclick="location.href='../createForm' ">글쓰기</button>
 </div>
+<br>
+<br>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $('#searchBtn').click(function(){
-            window.alert('왜 안 되냐...')
-            $.ajax({
-                url: '../notice_search',
-                type: 'post',
-                data: {'csrfmiddlewaretoken':'{{csrf_token}}',
-                       type: $('#type').val(),
-                       keyword: $('#keyword').val() },
-                dataType: 'json',
-                success: function(obj) {
-                    alert(obj)
-                    $.each(obj, function(idx, data){
-                        alert(data.id)
-                    })
-                }
-            })
-        });
-    })
+<!--    $(document).ready(function(){-->
+<!--        $('#searchBtn').click(function(){-->
+<!--            window.alert('왜 안 되냐...')-->
+<!--            $.ajax({-->
+<!--                url: '../notice_search/',-->
+<!--                type: 'post',-->
+<!--                data: {'csrfmiddlewaretoken':'{{csrf_token}}',-->
+<!--                       typeS: $('#type').val(),-->
+<!--                       keyword: $('#keyword').val() },-->
+<!--                dataType: 'json',-->
+<!--                success: function(obj) {-->
+<!--                    alert(obj)-->
+<!--                    $.each(obj, function(idx, data){-->
+<!--                        alert(data.id)-->
+<!--                    })-->
+<!--                }-->
+<!--            })-->
+<!--        });-->
+<!--    });-->
+    function validCheck(){
+        if($('#keyword').val().trim == ""){
+            alert("제목이나 작성자를 입력해 주세요.");
+            $('#keyword').focus();
+            return false;
+        }
+    }
+
 </script>
                             </div>
                         </div>
