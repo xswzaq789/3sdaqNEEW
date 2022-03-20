@@ -8,32 +8,48 @@
     .write{text-align: center; }
 </style>
 
-<form action="../notice_create/" method="post">
+<form action="../notice_create/" method="post" onsubmit="return validCheck();">
     {% csrf_token %}
-
     <label class="form-label">Title</label>
     <div class = "title">
-        <input type="text" class="form-control" name="title" placeholder="제목을 입력하세요">
+        <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력하세요">
     </div>
 
     <div>
         <label class="form-label">Writer</label>
-        <input type="text" class="form-control" name="writer" readonly value="{{user_id}}"></input>
+        <input type="text" class="form-control" id="writer" name="writer" readonly value="{{user_id}}"></input>
     </div>
     <div>
         <label class="form-label">Content</label>
-        <textarea class="form-control" name="content" placeholder="내용을 입력하세요"></textarea>
+        <textarea class="form-control" id="content" name="content" placeholder="내용을 입력하세요"></textarea>
     </div>
     <br>
     <br>
     <div class="write">
-        <button type="submit" class="btn btn-dark btn-lg" onclick="location.href='../' ">게시판으로</button>
+        <button type="button" class="btn btn-dark btn-lg" onclick="location.href='../index/' ">게시판으로</button>
         <button type="submit" class="btn btn-dark btn-lg">작성</button>
     </div>
 </form>
-</main>
-</div>
-</div>
+
+<script>
+function validCheck(){
+    if($('#title').val().trim() == ""){
+        alert('제목을 입력해 주세요');
+        $('#title').focus();
+        return false;
+    }
+    if($('#content').val().trim() == ""){
+        alert('내용을 입력해 주세요');
+        $('#content').focus();
+        return false;
+    }
+    if($('#writer').val().trim() == ""){
+        alert('새로그인이 필요합니다. \n로그아웃 후 사용해 주세요.');
+        return false;
+    }
+}
+</script>
+
 <script>
 $(document).ready(function(){
 	$('#header_main_title').text("글쓰기");
