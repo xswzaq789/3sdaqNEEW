@@ -116,6 +116,37 @@ def input_ballance():
     print("input_ballance 완료")
     #end input_ballance()
 
+
+def input_webNotice():
+    cur = con.cursor()
+
+    sql_insert = ""
+    sql_insert += "insert into noticeApp_webnotice(title, writer, content, viewcnt, regdate)"
+    sql_insert += "values(?,?,?,?,(select datetime('now', 'localtime')))"
+    Notice_list = [
+        ('삼전은 왜이래요?', 'user2', '왜이러는지 모르겠어요.. ', 2),
+        ('베이징현대 1.2조증자', 'user5', '호재인가?', 5),
+        ('집값은 어찌 될까요?', 'user13', '대통령도 바뀌었는데.. ㅎㅎ', 12),
+        ('코인보단 3스닥', 'user23', '3스닥이 제일 낫죠..? 그쵸?', 3),
+        ('산불은 다꺼졌을라나', 'minsu', '쩝..', 5),
+        ('멀티캠퍼스는 어때요?', 'user8', '다닐까 하는데..', 23),
+        ('주식 떨어질때 듣기 좋은노래..', 'user16', '아무래도 나는 괜찮아 \n그토록 원한 너 있으니 \n그무었도 부럽지않아.. \n\n 그들이 사랑하기까지 -  이승환&강수지', 19),
+        ('서울은 비오나요?', 'user20', '비안오나?', 6),
+        ('Bot들이 말이 많네', 'yunsub', '이거 크롤링인가요?', 8),
+        ('봇들이 사람 다 됐죠..', 'jinyoung', '3스닥이니 가능한거겠죠..', 11),
+        ('3스닥 최고에요.. 이러다 부자 될거같아요..', 'minsu', '제목은 낚시.. 현실은.. ㅠㅠ', 16),
+        ('금리 불확실성.. 흠.. 달러를 사야하나', 'user1', '사까 마까', 7),
+        ('FOMC 회의 언제죠?', 'bohyun', '궁굼하다.', 9),
+        ('후훗.. 돈좀 버셨어요?', 'blackrock', '난 꺼얶~~', 10),
+        ('현대도 중고차 판대요..', 'yunsub', '현대차 오르겠죠?', 9),
+    ]
+
+    #print(sql_insert)
+    cur.executemany(sql_insert, Notice_list)
+    con.commit()
+    print("input_webNotice 완료")
+    #end input_comp()
+
 def clear_inputData():
     cur = con.cursor()
     sql_delete = "delete from userApp_webuser"
@@ -130,6 +161,8 @@ def clear_inputData():
     cur.execute(sql_delete)
     sql_delete = "delete from tradeApp_d_trade"
     cur.execute(sql_delete)
+    sql_delete = "delete from noticeApp_webnotice"
+    cur.execute(sql_delete)
     sql_update = "update sqlite_sequence set seq = 0 where name = 'tradeApp_ballance'"
     cur.execute(sql_update)
     sql_update = "update sqlite_sequence set seq = 0 where name = 'userApp_webuser'"
@@ -140,6 +173,8 @@ def clear_inputData():
     cur.execute(sql_update)
     sql_update = "update sqlite_sequence set seq = 0 where name = 'tradeApp_d_trade'"
     cur.execute(sql_update)
+    sql_update = "update sqlite_sequence set seq = 0 where name = 'noticeApp_webnotice'"
+    cur.execute(sql_update)
     con.commit()
     print("clear_inputData 완료 ")
     # end clear_inputData()
@@ -148,7 +183,7 @@ clear_inputData()
 input_webuser()
 input_comp()
 input_ballance()
-
+input_webNotice()
 con.close()
 
 #  2022-03-13 00:07

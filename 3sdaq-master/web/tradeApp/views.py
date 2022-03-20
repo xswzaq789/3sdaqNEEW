@@ -93,7 +93,8 @@ def sTrade_trade(request):
     d_day = '-0 day'
     my_query = query_sTrade_trade(user_id, price, quan, code, gubun, d_day)
     #print(my_query)
-    #print(my_query == [])
+    #print("my_query == [] : ", my_query == [])
+
     jsonAry = []
     for value in my_query:
         if(my_query != []):
