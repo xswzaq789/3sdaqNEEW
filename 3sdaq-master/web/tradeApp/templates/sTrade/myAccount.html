@@ -94,7 +94,7 @@
 				</tr>
 			</thead>
             <tbody id="tbody" stype="height:300px; width:100%;">
-            {% for myTrade in myTrades %}
+            	{% for myTrade in myTrades %}
 				<tr id="now_myTrade_{{forloop.counter0}}" copyId="now_myTrade_{{forloop.counter0}}" trCode="{{myTrade.code}}"
 					dcode="{{myTrade.code}}" dname="{{myTrade.name}}" dprice="{{myTrade.price}}" dquan="{{myTrade.quan}}"
 					vgubun='S'  onclick="trade_preOrder(this)" style='text-align: center;'>
@@ -113,14 +113,8 @@
     </div>
 </div>
 
-
-
-
 <!--자바스크립트 구간-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
 <script>
-
 function updatesTrade(){
 	$.ajax({
 		url: '../sTrade_myAccount/',

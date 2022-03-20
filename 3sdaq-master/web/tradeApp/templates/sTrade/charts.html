@@ -1,7 +1,8 @@
 {% include 'header.html' %}
 
 {% block content %}
-<style>
+<div id="contents">
+    <style>
 
     #first {
         display:inline-block;
@@ -14,61 +15,60 @@
     }
 
 </style>
-<main>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item">차트분석</a></li>
-        <li class="breadcrumb-item active">개별종목</li>
-    </ol>
-    <div style="height:10px;"></div>
-    <div class="row">
-        <div class="col-lg-6">
-            <div id="chart_size" class="card mb-4">
-                <div class="card-header"  align="center">
-                    <i class="fas fa-chart-bar me-1"></i>
-                    3스닥 종목별 차트
+    <div>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item">차트분석</li>
+            <li class="breadcrumb-item active">개별종목</li>
+        </ol>
+        <div style="height:10px;"></div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div id="chart_size" class="card mb-4">
+                    <div class="card-header"  align="center">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        3스닥 종목별 차트
+                    </div>
+                    <div class="card-body" ><canvas id="myAreaChart" width="100%" height="50"></canvas></div>
+                    <div class="card-footer small text-muted"></div>
                 </div>
-                <div class="card-body" ><canvas id="myAreaChart" width="100%" height="50"></canvas></div>
-                <div class="card-footer small text-muted"></div>
             </div>
-        </div>
-        <div class="" id="first" >
-            <div class="card mb-4">
-                <div class="card-header" align="center">
-                    <i class="fas fa-chart-bar me-1"></i>
-                    3스닥 종목 리스트
+            <div class="" id="first" >
+                <div class="card mb-4">
+                    <div class="card-header" align="center">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        3스닥 종목 리스트
+                    </div>
                 </div>
-            <div>
-            <table class="table table-bordered"  align="left" style="width:100%; height:50%">
-                <caption  style = "display:none;">이건테이블이다.</caption>
-                <colgroup>
-                    <col width="30%" />
-                    <col width="20%" />
-                    <col width="25%" />
-                    <col width="25%" />
-                </colgroup>
-                <thead>
-                    <tr align="center">
-                        <th>종목</th><th>현재가</th><th>전일가</th><th>전일대비</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody" stype="height:300px; width:100%;">
-                    {% for sTrade in sTrades %}
-                    <tr id="now_sTrade_{{forloop.counter0}}" copyId="now_sTrade_{{forloop.counter0}}" trCode="{{sTrade.code}}" onclick="detail_order_click(this);" style='text-align: center;'>
-                        <td name="name" id="td_sTrade_name_{{forloop.counter0}}">{{sTrade.name}}</td>
-                        <td name="price" id="td_sTrade_price_{{forloop.counter0}}">{{sTrade.price}}</td>
-                        <td name="d_1price" id="td_sTrade_d_1price_{{forloop.counter0}}">{{sTrade.d_1price}}</td>
-                        <td name="change" id="td_sTrade_change_{{forloop.counter0}}">{{sTrade.change}}</td>
-        <!--                                        <td name="sum_tquan" id="td_sTrade_sum_tquan_{{forloop.counter0}}">{{sTrade.sum_tquan}}</td>-->
-        <!--                                        <td name="ch_rate" id="td_sTrade_ch_rate_{{forloop.counter0}}">{{sTrade.ch_rate}}</td>-->
-                    </tr>
-                    {% endfor %}
-                </tbody>
+                <table class="table table-bordered"  align="left" style="width:100%; height:50%">
+                    <caption  style = "display:none;">이건테이블이다.</caption>
+                    <colgroup>
+                        <col width="30%" />
+                        <col width="20%" />
+                        <col width="25%" />
+                        <col width="25%" />
+                    </colgroup>
+                    <thead>
+                        <tr align="center">
+                            <th>종목</th><th>현재가</th><th>전일가</th><th>전일대비</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody" stype="height:300px; width:100%;">
+                        {% for sTrade in sTrades %}
+                        <tr id="now_sTrade_{{forloop.counter0}}" copyId="now_sTrade_{{forloop.counter0}}" trCode="{{sTrade.code}}" onclick="detail_order_click(this);" style='text-align: center;'>
+                            <td name="name" id="td_sTrade_name_{{forloop.counter0}}">{{sTrade.name}}</td>
+                            <td name="price" id="td_sTrade_price_{{forloop.counter0}}">{{sTrade.price}}</td>
+                            <td name="d_1price" id="td_sTrade_d_1price_{{forloop.counter0}}">{{sTrade.d_1price}}</td>
+                            <td name="change" id="td_sTrade_change_{{forloop.counter0}}">{{sTrade.change}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
+            <div class="card-footer small text-muted"></div>
         </div>
-        <div class="card-footer small text-muted"></div>
     </div>
-</main>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script>
@@ -173,14 +173,7 @@
       ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
       ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
     }
-    function ColorToHex(color) {
-      var hexadecimal = color.toString(16);
-      return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
-    }
 
-    function ConvertRGBtoHex(red, green, blue) {
-      return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
-    }
 </script>
 <script>
 $(document).ready(function(){
@@ -255,15 +248,11 @@ var myLineChart = new Chart(ctx, {
         }
     }
 });
-
-
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <!--                    차트 3개 -->
 
 
 {% endblock %}
 
-{% include 'footer.html'%}
+{% include 'footer.html' %}
