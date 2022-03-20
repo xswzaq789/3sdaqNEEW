@@ -1,6 +1,13 @@
 # 3sdaqNEEW
 ## flowchart
 ![NEW_flowchart](./NEW_flowchart.PNG)
+## Function
+- 주식 매매: 주식 매수와 매도를 할 수 있습니다.
+- 차트 분석: 선택한 회사의 주식 차트를 볼 수 있습니다.
+- 내 계좌: 자산, 보유한 주식 종목을 볼 수 있습니다.
+- 게시판: 유저들과 소통할 수 있는 게시판입니다.
+- Guide
+- My page
 ## Who maed this?
 @xswzaq789   
 @yourms  
